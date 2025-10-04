@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JEEVAN-SETU Unified Portal</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Switcher styles */
+    .switcher {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      justify-content: center;
+      background: #111;
+      z-index: 9999;
+    }
+    .switcher button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .switcher button.active {
+      background: #2563eb;
+      color: #fff;
+    }
+    .portal {
+      display: none;
+      padding-top: 60px; /* leave space for switcher */
+    }
+    .portal.active { display: block; }
+  </style>
+</head>
+
+<body>
+  <!-- Switcher -->
+  <div class="switcher">
+    <button onclick="showPortal('portal-v1')" id="btn-v1" class="active">Disaster Mgmt Portal</button>
+    <button onclick="showPortal('portal-v2')" id="btn-v2">Schools/Colleges Portal</button>
+  </div>
+
+  <!-- ====== Portal Version 1 ====== -->
+  <div id="portal-v1" class="portal active">
+    <!-- paste full body of your first site -->
+    <div class="topbar">
+      <div class="container">
+        <b>Government of India • National Disaster Management</b>
+        <span class="badge">24×7 Control Room: 1078</span>
+        <span class="badge" style="background:#dcfce7;color:#065f46">Emergency: 112</span>
+      </div>
+    </div>
+
+    <header>
+      <div class="container nav">
+        <div class="brand">
+          <img src="https://dummyimage.com/96x96/0ea5bf/ffffff.png&text=DM" alt="Logo" />
+          <div>
+            <div class="title">JEEVAN-SETU</div>
+            <div class="sub">Early warning • Preparedness • Response</div>
+          </div>
+        </div>
+        <nav class="links">
+          <a href="#alerts">Alerts</a>
+          <a href="#resources">Resources</a>
+          <a href="#report">Report</a>
+          <a href="#volunteer">Volunteer</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container hero-inner">
+        <div>
+          <p class="pill">All-India Multi-Hazard Platform</p>
+          <h1>Know risks early. Act fast. Stay safe.</h1>
+          <p>Realtime alerts for cyclone, flood, heatwave, earthquake and more...</p>
+          <form class="searchbar">
+            <input type="search" placeholder="Search your district, state or hazard" />
+            <button type="button">Search</button>
+          </form>
+          <div class="hero-card" style="margin-top:16px">
+            <h3>National Status (demo)</h3>
+            <div class="stat"><span class="badge" style="background:#ffe4e6;color:#9f1239">Severe</span> Cyclone watch</div>
+            <div class="stat"><span class="badge" style="background:#fff7ed;color:#9a3412">Alert</span> Heatwave</div>
+            <div class="stat"><span class="badge" style="background:#ecfeff;color:#083344">Advisory</span> Urban flood risk</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <h3>District Quick Check</h3>
+            <form id="location-form">
+              <p>Enter District / City</p>
+              <div class="list">
+                <input type="text" id="district" placeholder="Enter District / City" />
+                <button type="submit">Submit</button>
+              </div>
+            </form>
+            <div id="weather-result"></div>
+            <div id="alert-box"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ticker-wrap">
+      <div class="container ticker">
+        <div class="ticker__track">
+          <span class="ticker__item"><span class="dot"></span> IMD: Cyclone watch</span>
+          <span class="ticker__item"><span class="dot"></span> CWC: River levels rising</span>
+          <span class="ticker__item"><span class="dot"></span> Heatwave advisory</span>
+        </div>
+      </div>
+    </section>
+
+    <main class="container">
+      <section class="actions">
+        <a class="action" id="report" href="#"><span class="kicker">Report</span>
+          <h3>Report an Incident</h3></a>
+        <a class="action" id="alerts" href="#"><span class="kicker">Alerts</span>
+          <h3>Check Active Warnings</h3></a>
+        <a class="action" id="resources" href="#"><span class="kicker">Guidelines</span>
+          <h3>Preparedness & SOPs</h3></a>
+        <a class="action" id="volunteer" href="#"><span class="kicker">Volunteer</span>
+          <h3>Join Relief Efforts</h3></a>
+      </section>
+    </main>
+  </div>
+
+  <!-- ====== Portal Version 2 ====== -->
+  <div id="portal-v2" class="portal">
+    <header>
+      <img src="https://cdn.pixabay.com/photo/2020/05/21/07/22/india-5199461_1280.png" alt="Indian Emblem">
+      NATIONAL DISASTER PREPAREDNESS PORTAL<br>OF GOVERNMENT OF INDIA
+    </header>
+
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="#ndrf">NDRF</a>
+      <a href="#resources">Resources</a>
+      <a href="#news">News</a>
+      <a href="#login">Login</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <section id="home">
+      <div class="logo">JeevanSetu</div>
+      <p class="tagline">Disaster Preparedness and Response for Schools and Colleges</p>
+      <div class="icons"><span>🌍</span><span>🔥</span><span>🌊</span><span>🩹</span><span>⚡</span></div>
+    </section>
+
+
+    <!-- more sections ... -->
+    <button class="chatbot-btn" onclick="toggleChat()">💬</button>
+    <div class="chat-container" id="chatContainer">
+      <div class="chat-header">JeevanSetu Chatbot</div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Scripts (both portals) ===== -->
+  <script>
+    function showPortal(id) {
+      document.querySelectorAll('.portal').forEach(p => p.classList.remove('active'));
+      document.querySelector(`#${id}`).classList.add('active');
+      document.querySelectorAll('.switcher button').forEach(b => b.classList.remove('active'));
+      document.querySelector(`#btn-${id.split('-')[1]}`).classList.add('active');
+    }
+  </script>
+
+  <script>
+    // Weather + Earthquake (from v1)
+    const weatherApiKey = "ec59d035b50e478495d111430250709";
+    const form = document.getElementById("location-form");
+    if (form) {
+      const districtInput = document.getElementById("district");
+      const weatherResult = document.getElementById("weather-result");
+      const alertBox = document.getElementById("alert-box");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const district = districtInput.value.trim();
+        if (district) fetchWeather(district);
+      });
+
+      function fetchWeather(city) {
+        weatherResult.innerHTML = "⏳ Loading weather...";
+        fetch(`https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${city}&days=3`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.error) { weatherResult.innerHTML = `❌ ${data.error.message}`; return; }
+            const { name, region, country } = data.location;
+            const { temp_c, condition } = data.current;
+            weatherResult.innerHTML = `<div><h4>📍 ${name}, ${region}, ${country}</h4>
+              🌡️ ${temp_c} °C — ${condition.text}</div>`;
+            fetchEarthquakes(data.location.lat, data.location.lon);
+          });
+      }
+      function fetchEarthquakes(lat, lon) {
+        alertBox.innerHTML = "⏳ Checking earthquake alerts...";
+        const url = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=${lat}&longitude=${lon}&maxradiuskm=500&minmagnitude=4.5&starttime=${getYesterdayDate()}`;
+        fetch(url).then(res=>res.json()).then(data=>{
+          if (data.features.length>0) {
+            alertBox.innerHTML = "⚠️ Recent earthquakes nearby!";
+          } else alertBox.innerHTML = "✅ No recent earthquakes";
+        });
+      }
+      function getYesterdayDate(){const d=new Date();d.setDate(d.getDate()-1);return d.toISOString().split("T")[0];}
+    }
+  </script>
+
+  <script>
+    // Chatbot (from v2)
+    const apiKey = "50050ae77cfe47adaf1165501250909";
+    let step = 0; let userCity = ""; let disasterType = "";
+    const chatContainer = document.getElementById("chatContainer");
+    const chatMessages = document.getElementById("chatMessages");
+    const userInput = document.getElementById("userInput");
+
+    function toggleChat() {
+      chatContainer.style.display = (chatContainer.style.display === "flex") ? "none" : "flex";
+      if (step === 0 && chatMessages.innerHTML === "") {
+        addMessage("bot", "Hello! Where are you located?");
+      }
+    }
+    function addMessage(sender, text) {
+      const msg = document.createElement("div");
+      msg.classList.add("message", sender);
+      msg.innerText = text;
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    function sendMessage() {
+      const text = userInput.value.trim();
+      if (!text) return;
+      addMessage("user", text);
+      userInput.value = "";
+      if (step === 0) { userCity = text; addMessage("bot", `Fetching weather for ${userCity}...`); step = 1; }
+      else if (step === 1) { disasterType = text.toLowerCase(); addMessage("bot", "⚠️ Guidelines coming..."); step = 2; }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JEEVAN-SETU | Disaster Management Relief Portal</title>
+    <meta
+      name="description"
+      content="Public alerts, preparedness resources, and reporting for disasters across India."
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --primary-blue: #2563eb; /* Kept for chatbot consistency */
+        --dark-blue: #0f172a; /* Kept for chatbot consistency */
+        --light-text: #f9fafb; /* Kept for chatbot consistency */
+        --muted-text: #e2e8f0; /* Kept for chatbot consistency */
+        --navy: #0b2a4a;
+        --indigo: #103b66;
+        --aqua: #0ea5bf;
+        --saffron: #ff9933;
+        --green: #138808;
+        --muted: #6b7a89;
+        --danger: #d62828;
+        --bg: #f6f8fb;
+        --card: #ffffff;
+        --ink: #0f172a;
+        --ink-2: #334155;
+        --ring: rgba(14, 165, 191, 0.35);
+        --shadow: 0 8px 30px rgba(2, 12, 27, 0.08);
+        --radius: 16px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          Helvetica, sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        scroll-behavior: smooth;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      header {
+        background: linear-gradient(
+          180deg,
+          #0e3a65 0%,
+          #0b2a4a 55%,
+          #0b2a4a 100%
+        );
+        color: #fff;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      
+      .nav-wrapper {
+        display: grid;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 14px 0;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .brand img {
+        width: 42px;
+        height: 42px;
+      }
+
+      .brand .title {
+        font-weight: 700;
+        font-size: 1.25rem;
+        line-height: 1.1;
+      }
+
+      .brand .sub {
+        font-size: 0.8rem;
+        color: #cfe6ff;
+      }
+
+      .links {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+      }
+
+      .links a {
+        padding: 8px 12px;
+        border-radius: 999px;
+        color: #dbeafe;
+        font-weight: 500;
+        transition: background-color 0.2s;
+      }
+
+      .links a:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      #nav-toggle {
+        display: none;
+      }
+
+      .hamburger {
+        display: none;
+        cursor: pointer;
+        gap: 6px;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+      }
+
+      .hamburger span {
+        width: 22px;
+        height: 2px;
+        background: #fff;
+        display: block;
+      }
+
+      main {
+        padding-top: 0;
+      }
+      
+      section {
+        padding: 4rem 2rem;
+        text-align: center;
+      }
+      
+      section h2 {
+        font-size: 2.5rem;
+        color: var(--ink);
+      }
+      
+      .section-dark {
+        background: #eef2f7;
+      }
+
+      .section-dark h2 {
+        color: var(--ink);
+      }
+      
+      .hero {
+        padding: 0;
+        background: linear-gradient(
+          180deg,
+          #0b2a4a 0,
+          #0b2a4a 60%,
+          var(--bg) 60%
+        );
+        color: #fff;
+        text-align: left;
+      }
+
+      .hero-inner {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 26px;
+        padding: 34px 0 32px;
+        align-items: center;
+      }
+
+      .hero h1 {
+        margin: 6px 0 12px;
+        font-size: 3rem;
+        line-height: 1.2;
+      }
+
+      .hero p {
+        margin: 0;
+        color: #dbeafe;
+        font-size: 1.1rem;
+        max-width: 600px;
+      }
+
+      .hero-card {
+        background: rgba(255, 255, 255, 0.07);
+        backdrop-filter: saturate(120%) blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        color: var(--light-text);
+      }
+
+      .hero-card h3 {
+        margin-top: 0;
+        font-size: 1.25rem;
+        color: #fff;
+      }
+      
+      .hero-card p {
+        color: var(--muted-text);
+        font-size: 0.9rem;
+      }
+
+      .hero-card input[type="text"],
+      .hero-card button {
+        width: 100%;
+        padding: 0.8rem;
+        border-radius: 8px;
+        border: none;
+        margin-top: 0.5rem;
+        font-size: 1rem;
+        font-family: 'Inter', sans-serif;
+      }
+      
+      .hero-card input[type="text"] {
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #333;
+      }
+
+      .hero-card button {
+        background-color: var(--saffron);
+        color: var(--ink);
+        cursor: pointer;
+        font-weight: bold;
+        transition: filter 0.2s;
+      }
+      .hero-card button:hover {
+        filter: brightness(0.95);
+      }
+
+      #weather-result {
+        margin-top: 1rem;
+      }
+
+      .weather-card {
+        background: #f8fafc;
+        color: #333;
+        padding: 1rem;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        margin-top: 1rem;
+        text-align: left;
+      }
+      .weather-card h4 {
+        margin-top: 0;
+        color: #000;
+        font-size: 1.1rem;
+      }
+      .weather-card p {
+        color: #333;
+        font-size: 1rem;
+        margin: 0.5rem 0;
+      }
+
+      /* Chatbot styles */
+      .chatbot-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--navy);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        font-size: 26px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 1001;
+        transition: transform 0.2s;
+      }
+      .chatbot-btn:hover {
+        transform: scale(1.1);
+      }
+      .chat-container {
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        width: 350px;
+        max-height: 500px;
+        background: #fff;
+        color: #000;
+        border-radius: 12px;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 1001;
+      }
+      .chat-header {
+        background: var(--navy);
+        color: #fff;
+        padding: 12px;
+        font-weight: bold;
+      }
+      .chat-messages {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+        font-size: 14px;
+      }
+      .message {
+        margin: 6px 0;
+        padding: 8px 10px;
+        border-radius: 8px;
+        max-width: 80%;
+        clear: both;
+        line-height: 1.4em;
+        white-space: pre-line;
+      }
+      .bot {
+        background: #e6f0ff;
+        float: left;
+      }
+      .user {
+        background: var(--dark-blue);
+        color: #fff;
+        float: right;
+      }
+      .chat-input {
+        display: flex;
+        border-top: 1px solid #ccc;
+      }
+      .chat-input input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        outline: none;
+        font-size: 14px;
+      }
+      .chat-input button {
+        background: var(--navy);
+        color: #fff;
+        border: none;
+        padding: 0 15px;
+        cursor: pointer;
+      }
+
+      /* Utility Class */
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      
+      footer {
+        margin-top: 28px;
+        background: #0f172a;
+        color: #cbd5e1;
+        border-top: 4px solid var(--aqua);
+        padding: 2rem 1rem;
+      }
+      
+      .copyright {
+        border-top: 1px solid rgba(148, 163, 184, 0.2);
+        padding: 12px 0;
+        text-align: center;
+        color: #94a3b8;
+        font-size: 0.9rem;
+      }
+      
+
+      /* Responsive styles */
+      @media (max-width: 900px) {
+        .hero-inner {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+        .hero p {
+          margin: 1rem auto;
+        }
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+      }
+
+      @media (max-width: 860px) {
+        .links {
+          display: none;
+        }
+
+        .hamburger {
+          display: flex;
+          flex-direction: column;
+        }
+
+        #nav-toggle:checked ~ .links-mobile {
+          display: grid;
+        }
+
+        .links-mobile {
+          display: none;
+          grid-template-columns: 1fr;
+          gap: 6px;
+          padding: 12px;
+          border-top: 1px dashed rgba(255, 255, 255, 0.18);
+        }
+
+        .links-mobile a {
+          padding: 10px;
+          border-radius: 10px;
+          background: rgba(255, 255, 255, 0.06);
+          color: #e6f1ff;
+        }
+      }
+      
+      @media (max-width: 560px) {
+        section {
+          padding: 3rem 1rem;
+        }
+        section h2 {
+          font-size: 2rem;
+        }
+        .chat-container {
+          width: 90%;
+          right: 5%;
+        }
+      }
+      
+      :focus-visible {
+        outline: 3px solid var(--ring);
+        outline-offset: 2px;
+        border-radius: 10px;
+      
+    
+    
+    /*  this is from combined html css */
+    
+ .ticker-wrap {
+  background: #fed7aa;
+  border: 1px solid #fbbf24;
+  color: #7c2d12;
+  border-left: 0;
+  border-right: 0
+}
+
+.ticker {
+  overflow: hidden;
+  white-space: nowrap
+}
+
+.ticker__track {
+  display: inline-block;
+  animation: scroll 28s linear infinite;
+  padding: 8px 0
+}
+
+.ticker__item {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  margin-right: 36px
+}}
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="container">
+        <div class="nav-wrapper">
+            <div class="nav">
+                <a href="#home" class="brand">
+                    <img
+                      src="https://dummyimage.com/96x96/0ea5bf/ffffff.png&text=JS"
+                      alt="Jeevan-Setu Logo"
+                    />
+                    <div>
+                      <div class="title">JEEVAN-SETU</div>
+                      <div class="sub">Early warning • Preparedness • Response</div>
+                    </div>
+                </a>
+
+                <nav class="links">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#resources">Resources</a>
+                    <a href="#news">News</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+                
+                <label for="nav-toggle" class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </label>
+            </div>
+            
+            <input type="checkbox" id="nav-toggle" />
+            
+        </div>
+      </div>
+    </header>
+
+    <section aria-label="Latest alerts" class="ticker-wrap">
+    <div class="container ticker">
+      <div class="ticker__track" aria-live="polite">
+        <span class="ticker__item"><span class="dot"></span> IMD: Cyclone watch for North Bay of Bengal (demo)</span>
+        <span class="ticker__item"><span class="dot"></span> CWC: Orange alert – river levels rising in Assam
+          (demo)</span>
+        <span class="ticker__item"><span class="dot" style="background:#f59e0b"></span> Heatwave advisory for Delhi NCR
+          (demo)</span>
+        <span class="ticker__item"><span class="dot" style="background:#16a34a"></span> Fishermen: do not venture into
+          rough sea (demo)</span>
+        <span class="ticker__item"><span class="dot"></span> IMD: Cyclone watch for North Bay of Bengal (demo)</span>
+        <span class="ticker__item"><span class="dot"></span> CWC: Orange alert – river levels rising in Assam
+          (demo)</span>
+        <span class="ticker__item"><span class="dot" style="background:#f59e0b"></span> Heatwave advisory for Delhi NCR
+          (demo)</span>
+        <span class="ticker__item"><span class="dot" style="background:#16a34a"></span> Fishermen: do not venture into
+          rough sea (demo)</span>
+      </div>
+    </div>
+  </section>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-inner">
+                <div>
+                  <h1>Know risks early. Act fast. Stay safe.</h1>
+                  <p>
+                    Realtime alerts for cyclone, flood, heatwave, earthquake and more.
+                    Find shelter, helplines, and verified advisories for your
+                    district.
+                  </p>
+                </div>
+
+                <div class="hero-card">
+                  <h3>District Quick Check</h3>
+                  <form id="location-form">
+                    <p>
+                      Enter your district or city to view active alerts & weather
+                      updates.
+                    </p>
+                    <label for="district" class="visually-hidden">District or City</label>
+                    <input
+                      type="text"
+                      id="district"
+                      placeholder="e.g., Delhi"
+                      required
+                    />
+                    <button type="submit">Check Alerts</button>
+                  </form>
+                  <div id="weather-result"></div>
+                  <div id="alert-box"></div>
+                </div>
+              </div>
+        </div>
+      </section>
+
+      <section id="about" class="section-dark">
+        <h2>About JeevanSetu</h2>
+        <p style="max-width: 800px; margin: auto">
+          JeevanSetu is a Government of India initiative to build a
+          disaster-resilient nation. Our mission is to provide timely and
+          accurate information, resources, and coordination support to minimize
+          the impact of natural and man-made disasters. We consolidate alerts
+          from premier agencies like IMD, CWC, and INCOIS to deliver a unified
+          operational picture for citizens and administrators.
+        </p>
+      </section>
+
+      <section id="resources">
+        <h2>Preparedness Resources</h2>
+        <p style="max-width: 800px; margin: auto">
+          Knowledge is the key to safety. Download official guidelines, Standard
+          Operating Procedures (SOPs), and educational materials for various
+          hazards.
+        </p>
+      </section>
+
+      <section id="news" class="section-dark">
+        <h2>Latest News & Advisories</h2>
+        <p style="max-width: 800px; margin: auto">
+          Stay updated with the latest advisories and news from the National
+          Disaster Management Authority (NDMA).
+        </p>
+      </section>
+
+      <section id="contact">
+        <h2>Contact Us</h2>
+        <p>
+          For emergencies, dial 112 or the NDMA Helpline at 1078.<br />
+          For general inquiries, reach out to us at:<br />
+          📍 National Disaster Management Authority, NDMA Bhawan, New Delhi<br />
+          📧 info@jeevansetu.gov.in
+        </p>
+      </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+           <div class="copyright">
+                © 2025 Jeevan-Setu, Government of India. All rights reserved.
+           </div>
+        </div>
+    </footer>
+
+
+    <button class="chatbot-btn" onclick="toggleChat()">💬</button>
+
+    <div class="chat-container" id="chatContainer">
+      <div class="chat-header">JeevanSetu Assistant</div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input">
+        <input
+          type="text"
+          id="userInput"
+          placeholder="Type your message..."
+          onkeydown="if(event.key==='Enter') sendMessage()"
+        />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+    
+    <script>
+        // ===================================================================================
+        // !!! CRITICAL SECURITY WARNING !!!
+        // DO NOT expose your API key in client-side code like this in a real application.
+        // It should be stored in a secure backend or a serverless function.
+        // Anyone can steal this key by viewing the page source.
+        //
+        // --- HOW TO FIX THIS ---
+        // 1. Create a backend endpoint (e.g., /api/weather) on your server.
+        // 2. The frontend will call YOUR endpoint: fetch('/api/weather?city=Delhi')
+        // 3. Your backend will receive this request, securely add the API key,
+        //    call the real WeatherAPI (https://api.weatherapi.com/...),
+        //    and then send the response back to your frontend.
+        // ===================================================================================
+        const weatherApiKey = "YOUR_WEATHER_API_KEY"; // Replace with your actual key only after moving to a backend
+
+        // --- Main Page Weather/Alerts Widget ---
+        const form = document.getElementById("location-form");
+        const districtInput = document.getElementById("district");
+        const weatherResult = document.getElementById("weather-result");
+        const alertBox = document.getElementById("alert-box");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const district = districtInput.value.trim();
+            if (district) {
+                fetchWeatherAndAlerts(district);
+            }
+        });
+
+        function fetchWeatherAndAlerts(city) {
+            weatherResult.innerHTML = "⏳ Loading weather...";
+            alertBox.innerHTML = "";
+
+            // In a real application, you would call your own backend endpoint
+            // const apiUrl = `/api/weather?city=${city}`;
+            const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${city}&days=1`;
+
+            fetch(apiUrl)
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.error) {
+                        weatherResult.innerHTML = `<p style="color:#ffbaba;">❌ ${data.error.message}</p>`;
+                        return;
+                    }
+
+                    const { name, region } = data.location;
+                    const { temp_c, condition, humidity, wind_kph } = data.current;
+                    
+                    // Update the global city variable for the chatbot
+                    userCity = name;
+
+                    weatherResult.innerHTML = `
+                        <div class="weather-card">
+                            <h4>📍 ${name}, ${region}</h4>
+                            <p><b>🌡️ Temp:</b> ${temp_c}°C</p>
+                            <p><b>☁️ Condition:</b> ${condition.text}</p>
+                            <p><b>💧 Humidity:</b> ${humidity}%</p>
+                            <p><b>🌬️ Wind:</b> ${wind_kph} kph</p>
+                        </div>
+                    `;
+
+                    fetchEarthquakes(data.location.lat, data.location.lon);
+                })
+                .catch(() => {
+                    weatherResult.innerHTML = `<p style="color:#ffbaba;">⚠️ Error fetching weather. Please check your connection.</p>`;
+                });
+        }
+
+        function fetchEarthquakes(lat, lon) {
+            alertBox.innerHTML = "⏳ Checking for recent earthquakes...";
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yesterdayString = yesterday.toISOString().split("T")[0];
+
+            const url = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=${lat}&longitude=${lon}&maxradiuskm=500&minmagnitude=4.5&starttime=${yesterdayString}`;
+
+            fetch(url)
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.features && data.features.length > 0) {
+                        const eq = data.features[0]; // Show the most recent one
+                        alertBox.innerHTML = `
+                            <div style="background:#d62828; color:white; padding:10px; border-radius:8px; margin-top:10px; text-align: left;">
+                                <strong>⚠️ Earthquake Alert:</strong> Magnitude ${eq.properties.mag.toFixed(1)} reported ${eq.properties.place}.
+                                <br><small>Time: ${new Date(eq.properties.time).toLocaleString()}</small>
+                            </div>
+                        `;
+                    } else {
+                        alertBox.innerHTML = `<p style="color:#138808; font-weight:500;">✅ No significant earthquakes detected nearby in the last 24 hours.</p>`;
+                    }
+                })
+                .catch(() => {
+                    alertBox.innerHTML = `<p style="color:#fde047;">⚠️ Could not fetch earthquake data.</p>`;
+                });
+        }
+
+        // --- Chatbot Logic ---
+        const chatContainer = document.getElementById("chatContainer");
+        const chatMessages = document.getElementById("chatMessages");
+        const userInput = document.getElementById("userInput");
+
+        let chatStep = 0;
+        let userCity = ""; // This is now a global variable shared with the weather check
+
+        function toggleChat() {
+            const isDisplayed = chatContainer.style.display === "flex";
+            chatContainer.style.display = isDisplayed ? "none" : "flex";
+            if (!isDisplayed && chatMessages.innerHTML === "") {
+                // Check if user has already searched for a city
+                if (userCity) {
+                    addMessage(
+                        "bot",
+                        `Hello! I am your JeevanSetu assistant. What type of disaster are you concerned about in ${userCity}? (e.g., Flood, Earthquake, Cyclone, Heatwave)`
+                    );
+                    chatStep = 1; // Skip the city question
+                } else {
+                    addMessage(
+                        "bot",
+                        "Hello! I am your JeevanSetu assistant. What is your current city or district?"
+                    );
+                    chatStep = 0; // Start from the beginning
+                }
+            }
+        }
+
+        function addMessage(sender, text) {
+            const msgDiv = document.createElement("div");
+            msgDiv.className = `message ${sender}`;
+            msgDiv.innerText = text;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function sendMessage() {
+            const userText = userInput.value.trim();
+            if (!userText) return;
+
+            addMessage("user", userText);
+            userInput.value = "";
+            handleChatbotResponse(userText);
+        }
+
+        function handleChatbotResponse(userText) {
+            if (chatStep === 0) {
+                userCity = userText;
+                addMessage(
+                    "bot",
+                    `Understood. Now, what type of disaster are you concerned about in ${userCity}? (e.g., Flood, Earthquake, Cyclone, Heatwave)`
+                );
+                chatStep = 1;
+            } else if (chatStep === 1) {
+                const disasterType = userText.toLowerCase();
+                provideDisasterGuidelines(disasterType);
+                addMessage(
+                    "bot",
+                    "Is there anything else I can help you with? You can ask about another disaster type or type 'reset' to start over."
+                );
+                chatStep = 2;
+            } else if (chatStep === 2) {
+                if (userText.toLowerCase() === "reset") {
+                    chatMessages.innerHTML = "";
+                    userCity = ""; // Reset the city
+                    addMessage(
+                        "bot",
+                        "Restarting our conversation. What is your current city or district?"
+                    );
+                    chatStep = 0;
+                } else {
+                    provideDisasterGuidelines(userText.toLowerCase());
+                }
+            }
+        }
+
+        function provideDisasterGuidelines(type) {
+            let advice = "";
+            // NOTE: Replace these placeholder strings with actual, detailed advice.
+            switch (type) {
+                case "flood":
+                    advice =
+                        "🌊 Flood Safety:\n• Move to higher ground immediately.\n• Avoid walking or driving through floodwaters.\n• Keep an emergency kit ready.\n• Listen to official alerts.";
+                    break;
+                case "earthquake":
+                    advice =
+                        "🌍 Earthquake Safety:\n• Drop, Cover, and Hold On.\n• Stay away from windows and heavy objects.\n• If outdoors, stay in an open area.\n• Do not use elevators.";
+                    break;
+                case "cyclone":
+                    advice =
+                        "🌀 Cyclone Safety:\n• Board up windows.\n• Secure loose objects outside.\n• Stay indoors in a strong part of the house.\n• Have an emergency kit with food and water.";
+                    break;
+                case "heatwave":
+                    advice =
+                        "☀️ Heatwave Safety:\n• Stay hydrated, drink plenty of water.\n• Avoid going out during peak sun hours (11 am - 4 pm).\n• Wear light, loose-fitting clothes.\n• Stay in cool places.";
+                    break;
+                default:
+                    advice = `I don't have specific guidelines for "${type}". In any emergency, it's crucial to follow instructions from local authorities. You can call the National Emergency Helpline at 112 or the NDMA control room at 1078 for assistance.`;
+            }
+            addMessage("bot", advice);
+        }
+    </script>
+  </body>
+</html>

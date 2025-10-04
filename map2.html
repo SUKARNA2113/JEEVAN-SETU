@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Resources Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <section id="resources" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold" data-key="resourcesTitle">Find Local Resources</h2>
+                <p class="text-gray-600 mt-2" data-key="resourcesSubtitle">Key locations and their current status.</p>
+                <div class="mt-4 max-w-sm mx-auto">
+                    <label for="city-search" class="sr-only" data-key="selectCityLabel">Search City</label>
+                    <input type="text" id="city-search" list="city-list" placeholder="Search for a city..." class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <datalist id="city-list">
+                        </datalist>
+                </div>
+            </div>
+            <div class="flex flex-col lg:flex-row gap-8">
+                <div class="lg:w-1/2 w-full h-96 lg:h-auto">
+                    <div id="map"></div>
+                </div>
+                <div class="lg:w-1/2 w-full">
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-xl font-bold mb-3 flex items-center"><i class="fas fa-shopping-cart mr-3 text-blue-500"></i><span data-key="resourcesGrocery">Grocery Stores</span></h3>
+                            <ul class="space-y-3" id="grocery-list">
+                                </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-3 flex items-center"><i class="fas fa-hospital mr-3 text-red-500"></i><span data-key="resourcesHospitals">Hospitals</span></h3>
+                            <ul class="space-y-3" id="hospital-list">
+                                </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-3 flex items-center"><i class="fas fa-house-chimney-user mr-3 text-purple-500"></i><span data-key="resourcesShelters">Emergency Shelters</span></h3>
+                            <ul class="space-y-3" id="shelter-list">
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        const cityData = {
+            delhi: { name: "Delhi", coords: [28.6139, 77.2090], zoom: 11, resources: [{ name: 'Modern Bazaar', address: 'Connaught Place', type: 'grocery', status: 'Open', coords: [28.6324, 77.2167] }, { name: '24Seven', address: 'Saket', type: 'grocery', status: 'Limited Hours', coords: [28.5246, 77.2118] }, { name: 'AIIMS, New Delhi', address: 'Ansari Nagar', type: 'hospital', status: 'Operational', coords: [28.5662, 77.2109] }, { name: 'Max Healthcare', address: 'Saket', type: 'hospital', status: 'At Capacity', coords: [28.5283, 77.2115] }, { name: 'Community Center, Sector 8', address: 'Dwarka', type: 'shelter', status: 'Accepting', coords: [28.5921, 77.0460] }] },
+            mumbai: { name: "Mumbai", coords: [19.0760, 72.8777], zoom: 11, resources: [{ name: 'Nature\'s Basket', address: 'Bandra West', type: 'grocery', status: 'Open', coords: [19.0645, 72.8302] }, { name: 'Star Market', address: 'Andheri East', type: 'grocery', status: 'Open', coords: [19.1175, 72.8631] }, { name: 'Lilavati Hospital', address: 'Bandra West', type: 'hospital', status: 'Operational', coords: [19.0602, 72.8310] }, { name: 'KEM Hospital', address: 'Parel', type: 'hospital', status: 'Operational', coords: [19.0096, 72.8428] }, { name: 'Andheri Sports Complex', address: 'Andheri West', type: 'shelter', status: 'Accepting', coords: [19.1244, 72.8272] }] },
+            bengaluru: { name: "Bengaluru", coords: [12.9716, 77.5946], zoom: 12, resources: [{ name: 'MK Retail', address: 'Indiranagar', type: 'grocery', status: 'Open', coords: [12.9784, 77.6408] }, { name: 'More Supermarket', address: 'Koramangala', type: 'grocery', status: 'Limited Hours', coords: [12.9352, 77.6245] }, { name: 'Manipal Hospital', address: 'Old Airport Road', type: 'hospital', status: 'Operational', coords: [12.9602, 77.6487] }, { name: 'Fortis Hospital', address: 'Bannerghatta Road', type: 'hospital', status: 'Operational', coords: [12.8797, 77.5970] }, { name: 'Kanteerava Indoor Stadium', address: 'Sampangi Rama Nagara', type: 'shelter', status: 'Accepting', coords: [12.9676, 77.5898] }] },
+            chennai: { name: "Chennai", coords: [13.0827, 80.2707], zoom: 11, resources: [{ name: 'Niligiris', address: 'Alwarpet', type: 'grocery', status: 'Open', coords: [13.0364, 80.2526] }, { name: 'Grace Supermarket', address: 'Anna Nagar', type: 'grocery', status: 'Open', coords: [13.0848, 80.2101] }, { name: 'Apollo Hospitals', address: 'Greams Road', type: 'hospital', status: 'Operational', coords: [13.0604, 80.2530] }, { name: 'MIOT International', address: 'Manapakkam', type: 'hospital', status: 'Operational', coords: [13.0135, 80.1772] }, { name: 'Nehru Indoor Stadium', address: 'Periyamet', type: 'shelter', status: 'Accepting', coords: [13.0858, 80.2676] }] },
+            kolkata: { name: "Kolkata", coords: [22.5726, 88.3639], zoom: 11, resources: [{ name: 'Spencer\'s Retail', address: 'South City Mall', type: 'grocery', status: 'Open', coords: [22.4965, 88.3653] }, { name: 'Apollo Gleneagles Hospital', address: 'Canal Circular Road', type: 'hospital', status: 'Operational', coords: [22.5756, 88.4042] }, { name: 'Netaji Indoor Stadium', address: 'Eden Gardens', type: 'shelter', status: 'Accepting', coords: [22.5651, 88.3427] }] },
+            hyderabad: { name: "Hyderabad", coords: [17.3850, 78.4867], zoom: 11, resources: [{ name: 'Ratnadeep Supermarket', address: 'Banjara Hills', type: 'grocery', status: 'Open', coords: [17.4154, 78.4447] }, { name: 'Yashoda Hospitals', address: 'Somajiguda', type: 'hospital', status: 'Operational', coords: [17.4246, 78.4578] }, { name: 'Gachibowli Indoor Stadium', address: 'Gachibowli', type: 'shelter', status: 'Accepting', coords: [17.4475, 78.3491] }] },
+            pune: { name: "Pune", coords: [18.5204, 73.8567], zoom: 11, resources: [{ name: 'Dorabjee\'s', address: 'Camp', type: 'grocery', status: 'Open', coords: [18.5173, 73.8822] }, { name: 'Ruby Hall Clinic', address: 'Dhole Patil Road', type: 'hospital', status: 'Operational', coords: [18.5323, 73.8824] }, { name: 'Shree Shiv Chhatrapati Sports Complex', address: 'Balewadi', type: 'shelter', status: 'Accepting', coords: [18.5779, 73.7694] }] },
+            ahmedabad: { name: "Ahmedabad", coords: [23.0225, 72.5714], zoom: 11, resources: [{ name: 'Star Bazaar', address: 'Satellite', type: 'grocery', status: 'Open', coords: [23.0331, 72.5097] }, { name: 'Sterling Hospital', address: 'Memnagar', type: 'hospital', status: 'Operational', coords: [23.0561, 72.5284] }, { name: 'Sardar Patel Stadium', address: 'Motera', type: 'shelter', status: 'Accepting', coords: [23.0931, 72.5954] }] },
+            jaipur: { name: "Jaipur", coords: [26.9124, 75.7873], zoom: 11, resources: [{ name: 'Reliance Fresh', address: 'Vaishali Nagar', type: 'grocery', status: 'Open', coords: [26.9069, 75.7483] }, { name: 'Fortis Escorts Hospital', address: 'Malviya Nagar', type: 'hospital', status: 'Operational', coords: [26.8517, 75.8049] }, { name: 'Sawai Mansingh Indoor Stadium', address: 'Rambagh', type: 'shelter', status: 'Accepting', coords: [26.8961, 75.7993] }] },
+            lucknow: { name: "Lucknow", coords: [26.8467, 80.9462], zoom: 11, resources: [{ name: 'Spencer\'s', address: 'Hazratganj', type: 'grocery', status: 'Open', coords: [26.8488, 80.9419] }, { name: 'Medanta Hospital', address: 'Gomti Nagar', type: 'hospital', status: 'Operational', coords: [26.8524, 81.0067] }, { name: 'K. D. Singh Babu Stadium', address: 'Hazratganj', type: 'shelter', status: 'Accepting', coords: [26.8566, 80.9452] }] },
+            chandigarh: { name: "Chandigarh", coords: [30.7333, 76.7794], zoom: 12, resources: [{ name: 'Elante Mall Grocery', address: 'Industrial Area Phase I', type: 'grocery', status: 'Open', coords: [30.7056, 76.8013] }, { name: 'PGIMER', address: 'Sector 12', type: 'hospital', status: 'Operational', coords: [30.7656, 76.7686] }, { name: 'Sector 42 Hockey Stadium', address: 'Sector 42-B', type: 'shelter', status: 'Accepting', coords: [30.7259, 76.7554] }] }
+        };
+
+        let map;
+        const markers = []; // To keep track of markers on the map
+
+        const statusClasses = {
+            Open: 'text-green-600 bg-green-100', 'Limited Hours': 'text-yellow-600 bg-yellow-100',
+            Operational: 'text-green-600 bg-green-100', 'At Capacity': 'text-red-600 bg-red-100',
+            Accepting: 'text-green-600 bg-green-100'
+        };
+
+        const updateCity = (cityNameKey) => {
+            const city = cityData[cityNameKey];
+            if (!city) return;
+
+            map.setView(city.coords, city.zoom);
+            markers.forEach(marker => map.removeLayer(marker));
+            markers.length = 0;
+
+            document.getElementById('grocery-list').innerHTML = '';
+            document.getElementById('hospital-list').innerHTML = '';
+            document.getElementById('shelter-list').innerHTML = '';
+
+            city.resources.forEach(resource => {
+                const marker = L.marker(resource.coords).addTo(map)
+                    .bindPopup(`<b>${resource.name}</b><br>${resource.address}<br>Status: ${resource.status}`);
+                markers.push(marker);
+
+                const listEl = document.getElementById(`${resource.type}-list`);
+                if (listEl) {
+                    const statusClass = statusClasses[resource.status] || 'text-gray-600 bg-gray-100';
+                    const listItem = document.createElement('li');
+                    listItem.className = 'bg-white p-4 rounded-lg shadow-sm flex justify-between items-center';
+                    listItem.innerHTML = `<div><p class="font-semibold">${resource.name}</p><p class="text-sm text-gray-500">${resource.address}</p></div><span class="text-sm font-bold ${statusClass} px-3 py-1 rounded-full">${resource.status}</span>`;
+                    listEl.appendChild(listItem);
+                }
+            });
+        };
+
+        const populateCityDatalist = () => {
+            const datalist = document.getElementById('city-list');
+            datalist.innerHTML = '';
+            for (const key in cityData) {
+                const option = document.createElement('option');
+                option.value = cityData[key].name;
+                datalist.appendChild(option);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            map = L.map('map');
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+
+            populateCityDatalist();
+            updateCity('delhi');
+            document.getElementById('city-search').value = "Delhi";
+
+            document.getElementById('city-search').addEventListener('input', (e) => {
+                const userInput = e.target.value.trim().toLowerCase();
+                const cityKey = Object.keys(cityData).find(key => cityData[key].name.toLowerCase() === userInput);
+                if (cityKey) {
+                    updateCity(cityKey);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

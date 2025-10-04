@@ -1,0 +1,837 @@
+<!-- <!-- <script>
+    /************* Sample data and other code remain the same *************/
+    // ... [rest of the existing script up to the map section] ...
+
+    // --- MAP & RESOURCES LOGIC ---
+    const cityData = {
+        delhi: { name: "Delhi", coords: [28.6139, 77.2090], zoom: 11, resources: [{ name: 'Modern Bazaar', address: 'Connaught Place', type: 'grocery', status: 'Open', coords: [28.6324, 77.2167] }, { name: '24Seven', address: 'Saket', type: 'grocery', status: 'Limited Hours', coords: [28.5246, 77.2118] }, { name: 'AIIMS, New Delhi', address: 'Ansari Nagar', type: 'hospital', status: 'Operational', coords: [28.5662, 77.2109] }, { name: 'Max Healthcare', address: 'Saket', type: 'hospital', status: 'At Capacity', coords: [28.5283, 77.2115] }, { name: 'Community Center, Sector 8', address: 'Dwarka', type: 'shelter', status: 'Accepting', coords: [28.5921, 77.0460] }] },
+        mumbai: { name: "Mumbai", coords: [19.0760, 72.8777], zoom: 11, resources: [{ name: 'Nature\'s Basket', address: 'Bandra West', type: 'grocery', status: 'Open', coords: [19.0645, 72.8302] }, { name: 'Star Market', address: 'Andheri East', type: 'grocery', status: 'Open', coords: [19.1175, 72.8631] }, { name: 'Lilavati Hospital', address: 'Bandra West', type: 'hospital', status: 'Operational', coords: [19.0602, 72.8310] }, { name: 'KEM Hospital', address: 'Parel', type: 'hospital', status: 'Operational', coords: [19.0096, 72.8428] }, { name: 'Andheri Sports Complex', address: 'Andheri West', type: 'shelter', status: 'Accepting', coords: [19.1244, 72.8272] }] },
+        bengaluru: { name: "Bengaluru", coords: [12.9716, 77.5946], zoom: 12, resources: [{ name: 'MK Retail', address: 'Indiranagar', type: 'grocery', status: 'Open', coords: [12.9784, 77.6408] }, { name: 'More Supermarket', address: 'Koramangala', type: 'grocery', status: 'Limited Hours', coords: [12.9352, 77.6245] }, { name: 'Manipal Hospital', address: 'Old Airport Road', type: 'hospital', status: 'Operational', coords: [12.9602, 77.6487] }, { name: 'Fortis Hospital', address: 'Bannerghatta Road', type: 'hospital', status: 'Operational', coords: [12.8797, 77.5970] }, { name: 'Kanteerava Indoor Stadium', address: 'Sampangi Rama Nagara', type: 'shelter', status: 'Accepting', coords: [12.9676, 77.5898] }] },
+        chennai: { name: "Chennai", coords: [13.0827, 80.2707], zoom: 11, resources: [{ name: 'Niligiris', address: 'Alwarpet', type: 'grocery', status: 'Open', coords: [13.0364, 80.2526] }, { name: 'Grace Supermarket', address: 'Anna Nagar', type: 'grocery', status: 'Open', coords: [13.0848, 80.2101] }, { name: 'Apollo Hospitals', address: 'Greams Road', type: 'hospital', status: 'Operational', coords: [13.0604, 80.2530] }, { name: 'MIOT International', address: 'Manapakkam', type: 'hospital', status: 'Operational', coords: [13.0135, 80.1772] }, { name: 'Nehru Indoor Stadium', address: 'Periyamet', type: 'shelter', status: 'Accepting', coords: [13.0858, 80.2676] }] },
+        kolkata: { name: "Kolkata", coords: [22.5726, 88.3639], zoom: 11, resources: [{ name: 'Spencer\'s Retail', address: 'South City Mall', type: 'grocery', status: 'Open', coords: [22.4965, 88.3653] }, { name: 'Apollo Gleneagles Hospital', address: 'Canal Circular Road', type: 'hospital', status: 'Operational', coords: [22.5756, 88.4042] }, { name: 'Netaji Indoor Stadium', address: 'Eden Gardens', type: 'shelter', status: 'Accepting', coords: [22.5651, 88.3427] }] },
+        hyderabad: { name: "Hyderabad", coords: [17.3850, 78.4867], zoom: 11, resources: [{ name: 'Ratnadeep Supermarket', address: 'Banjara Hills', type: 'grocery', status: 'Open', coords: [17.4154, 78.4447] }, { name: 'Yashoda Hospitals', address: 'Somajiguda', type: 'hospital', status: 'Operational', coords: [17.4246, 78.4578] }, { name: 'Gachibowli Indoor Stadium', address: 'Gachibowli', type: 'shelter', status: 'Accepting', coords: [17.4475, 78.3491] }] },
+        pune: { name: "Pune", coords: [18.5204, 73.8567], zoom: 11, resources: [{ name: 'Dorabjee\'s', address: 'Camp', type: 'grocery', status: 'Open', coords: [18.5173, 73.8822] }, { name: 'Ruby Hall Clinic', address: 'Dhole Patil Road', type: 'hospital', status: 'Operational', coords: [18.5323, 73.8824] }, { name: 'Shree Shiv Chhatrapati Sports Complex', address: 'Balewadi', type: 'shelter', status: 'Accepting', coords: [18.5779, 73.7694] }] },
+        ahmedabad: { name: "Ahmedabad", coords: [23.0225, 72.5714], zoom: 11, resources: [{ name: 'Star Bazaar', address: 'Satellite', type: 'grocery', status: 'Open', coords: [23.0331, 72.5097] }, { name: 'Sterling Hospital', address: 'Memnagar', type: 'hospital', status: 'Operational', coords: [23.0561, 72.5284] }, { name: 'Sardar Patel Stadium', address: 'Motera', type: 'shelter', status: 'Accepting', coords: [23.0931, 72.5954] }] },
+        jaipur: { name: "Jaipur", coords: [26.9124, 75.7873], zoom: 11, resources: [{ name: 'Reliance Fresh', address: 'Vaishali Nagar', type: 'grocery', status: 'Open', coords: [26.9069, 75.7483] }, { name: 'Fortis Escorts Hospital', address: 'Malviya Nagar', type: 'hospital', status: 'Operational', coords: [26.8517, 75.8049] }, { name: 'Sawai Mansingh Indoor Stadium', address: 'Rambagh', type: 'shelter', status: 'Accepting', coords: [26.8961, 75.7993] }] },
+        lucknow: { name: "Lucknow", coords: [26.8467, 80.9462], zoom: 11, resources: [{ name: 'Spencer\'s', address: 'Hazratganj', type: 'grocery', status: 'Open', coords: [26.8488, 80.9419] }, { name: 'Medanta Hospital', address: 'Gomti Nagar', type: 'hospital', status: 'Operational', coords: [26.8524, 81.0067] }, { name: 'K. D. Singh Babu Stadium', address: 'Hazratganj', type: 'shelter', status: 'Accepting', coords: [26.8566, 80.9452] }] },
+        chandigarh: { name: "Chandigarh", coords: [30.7333, 76.7794], zoom: 12, resources: [{ name: 'Elante Mall Grocery', address: 'Industrial Area Phase I', type: 'grocery', status: 'Open', coords: [30.7056, 76.8013] }, { name: 'PGIMER', address: 'Sector 12', type: 'hospital', status: 'Operational', coords: [30.7656, 76.7686] }, { name: 'Sector 42 Hockey Stadium', address: 'Sector 42-B', type: 'shelter', status: 'Accepting', coords: [30.7259, 76.7554] }] }
+    };
+
+    let map;
+    const markers = []; // To keep track of markers on the map
+
+    const statusClasses = {
+        Open: 'text-green-600 bg-green-100', 'Limited Hours': 'text-yellow-600 bg-yellow-100',
+        Operational: 'text-green-600 bg-green-100', 'At Capacity': 'text-red-600 bg-red-100',
+        Accepting: 'text-green-600 bg-green-100'
+    };
+
+    const updateCity = (cityNameKey) => {
+        const city = cityData[cityNameKey];
+        if (!city) return;
+
+        map.setView(city.coords, city.zoom);
+        markers.forEach(marker => map.removeLayer(marker));
+        markers.length = 0;
+
+        document.getElementById('grocery-list').innerHTML = '';
+        document.getElementById('hospital-list').innerHTML = '';
+        document.getElementById('shelter-list').innerHTML = '';
+
+        city.resources.forEach(resource => {
+            const marker = L.marker(resource.coords).addTo(map)
+                .bindPopup(`<b>${resource.name}</b><br>${resource.address}<br>Status: ${resource.status}`);
+            markers.push(marker);
+
+            const listEl = document.getElementById(`${resource.type}-list`);
+            if (listEl) {
+                const statusClass = statusClasses[resource.status] || 'text-gray-600 bg-gray-100';
+                const listItem = document.createElement('li');
+                listItem.className = 'bg-white p-4 rounded-lg shadow-sm flex justify-between items-center';
+                listItem.innerHTML = `<div><p class="font-semibold">${resource.name}</p><p class="text-sm text-gray-500">${resource.address}</p></div><span class="text-sm font-bold ${statusClass} px-3 py-1 rounded-full">${translations[currentLang][`status${resource.status.replace(/\s/g, '')}`]}</span>`;
+                listEl.appendChild(listItem);
+            }
+        });
+    };
+
+    const populateCityDatalist = () => {
+        const datalist = document.getElementById('city-list');
+        datalist.innerHTML = '';
+        for (const key in cityData) {
+            const option = document.createElement('option');
+            option.value = cityData[key].name;
+            datalist.appendChild(option);
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // [Existing code for initial rendering]
+        const savedLang = localStorage.getItem('language') || 'en';
+        setLanguage(savedLang); // This will also call generateLiveUpdates
+
+        // Initialize the map
+        map = L.map('map').setView([28.6139, 77.2090], 11); // Set a default view
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        populateCityDatalist();
+        updateCity('delhi');
+        document.getElementById('city-search').value = "Delhi";
+
+        document.getElementById('city-search').addEventListener('input', (e) => {
+            const userInput = e.target.value.trim().toLowerCase();
+            const cityKey = Object.keys(cityData).find(key => cityData[key].name.toLowerCase() === userInput);
+            if (cityKey) {
+                updateCity(cityKey);
+            }
+        });
+    });
+
+    // ... [rest of the existing script] ...
+</script> -->
+
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Management Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet CSS for interactive map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* A light gray background */
+            transition: padding-top 0.3s ease-in-out;
+        }
+        .hero-section {
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://placehold.co/1600x900/000000/FFFFFF?text=Stay+Safe');
+            background-size: cover;
+            background-position: center;
+        }
+        .modal-backdrop {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+        .disaster-card, .video-card, .update-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .disaster-card:hover, .video-card:hover, .update-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        /* Ticker styles */
+        .ticker-container {
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+        }
+        .ticker-content {
+            display: inline-block;
+            padding-left: 100%; /* Start off-screen to the right */
+            animation: ticker-scroll 25s linear infinite;
+        }
+        @keyframes ticker-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-200%); } /* Animate to far left */
+        }
+        .lang-btn.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+        /* Map style */
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Alert Notification Banner -->
+    <div id="alert-banner" class="bg-red-600 text-white p-4 text-center fixed top-0 w-full z-[60] transition-transform duration-300 ease-in-out transform translate-y-0">
+        <div class="container mx-auto flex justify-between items-center px-6">
+            <div class="flex items-center text-left flex-grow mr-4">
+                <i class="fas fa-exclamation-triangle mr-3 animate-pulse text-2xl"></i>
+                <div class="ticker-container">
+                    <span class="ticker-content" data-key="alertText">
+                        <strong class="font-bold mr-2" data-key="alertTitle">URGENT ALERT:</strong> Flash flood warning issued for the Delhi region. Seek higher ground immediately.
+                    </span>
+                </div>
+            </div>
+            <button id="close-alert-btn" class="text-3xl ml-4 leading-none">&times;</button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-blue-600 flex items-center">
+                <i class="fas fa-shield-halved mr-2"></i>
+                <span data-key="appName">SafeGuard</span>
+            </a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="#home" class="text-gray-600 hover:text-blue-600 transition" data-key="navHome">Home</a>
+                <a href="#disasters" class="text-gray-600 hover:text-blue-600 transition" data-key="navDisasters">Disaster Types</a>
+                <a href="#prepare" class="text-gray-600 hover:text-blue-600 transition" data-key="navPrepare">Prepare</a>
+                <a href="#live-updates" class="text-gray-600 hover:text-blue-600 transition" data-key="navLiveUpdates">Live Updates</a>
+                <a href="#kit" class="text-gray-600 hover:text-blue-600 transition" data-key="navKit">Emergency Kit</a>
+                <a href="#videos" class="text-gray-600 hover:text-blue-600 transition" data-key="navVideos">Videos</a>
+                <a href="#resources" class="text-gray-600 hover:text-blue-600 transition" data-key="navResources">Resources</a>
+            </div>
+             <div class="hidden md:flex items-center space-x-4">
+                 <div id="language-switcher" class="flex border border-gray-300 rounded-lg p-1">
+                    <button class="lang-btn px-3 py-1 text-sm rounded-md" data-lang="en">English</button>
+                    <button class="lang-btn px-3 py-1 text-sm rounded-md" data-lang="hi">हिंदी</button>
+                </div>
+                <a href="#contact" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition" data-key="navGetHelp">
+                    Get Help
+                </a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-700">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#home" class="block py-2 text-gray-600 hover:text-blue-600" data-key="navHomeMobile">Home</a>
+            <a href="#disasters" class="block py-2 text-gray-600 hover:text-blue-600" data-key="navDisastersMobile">Disaster Types</a>
+            <a href="#prepare" class="block py-2 text-gray-600 hover:text-blue-600" data-key="navPrepareMobile">Prepare</a>
+            <a href="#live-updates" class="block py-2 text-gray-600 hover:text-blue-600" data-key="navLiveUpdatesMobile">Live Updates</a>
+            <a href="#kit" class="block py-2 text-gray-600 hover:text-blue-600" data-key="navKitMobile">Emergency Kit</a>
+            <a href="#videos" class="block py-2 text-gray-600 hover:text-blue-600" data-key="navVideosMobile">Videos</a>
+            <a href="#resources" class="block py-2 text-gray-600 hover:text-blue-600" data-key="navResourcesMobile">Resources</a>
+             <a href="#contact" class="block mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-center" data-key="navGetHelpMobile">
+                Get Help
+            </a>
+            <div id="language-switcher-mobile" class="flex border border-gray-300 rounded-lg p-1 mt-4 justify-center">
+                <button class="lang-btn-mobile px-3 py-1 text-sm rounded-md" data-lang="en">English</button>
+                <button class="lang-btn-mobile px-3 py-1 text-sm rounded-md" data-lang="hi">हिंदी</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero-section text-white h-[60vh] md:h-[80vh] flex items-center">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight" data-key="heroTitle">Preparedness Today, Safety Tomorrow.</h1>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8" data-key="heroSubtitle">Your complete guide to understanding, preparing for, and responding to natural disasters.</p>
+                <a href="#disasters" class="bg-white text-blue-600 font-bold py-3 px-8 rounded-full text-lg hover:bg-gray-200 transition" data-key="heroCta">Learn How to Prepare</a>
+            </div>
+        </section>
+
+        <!-- Types of Disasters Section -->
+        <section id="disasters" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold" data-key="risksTitle">Know The Risks</h2>
+                    <p class="text-gray-600 mt-2" data-key="risksSubtitle">Click on a disaster type to learn how to prepare and react.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
+                    <!-- Disaster Card: Earthquake -->
+                    <div class="disaster-card bg-gray-50 p-6 rounded-xl text-center cursor-pointer" onclick="openModal('earthquake')">
+                        <i class="fas fa-house-crack text-5xl text-yellow-500 mx-auto"></i>
+                        <h3 class="font-bold mt-4 text-lg" data-key="disasterEarthquake">Earthquake</h3>
+                    </div>
+                    <!-- Disaster Card: Flood -->
+                    <div class="disaster-card bg-gray-50 p-6 rounded-xl text-center cursor-pointer" onclick="openModal('flood')">
+                        <i class="fas fa-water text-5xl text-blue-500 mx-auto"></i>
+                        <h3 class="font-bold mt-4 text-lg" data-key="disasterFlood">Flood</h3>
+                    </div>
+                    <!-- Disaster Card: Wildfire -->
+                    <div class="disaster-card bg-gray-50 p-6 rounded-xl text-center cursor-pointer" onclick="openModal('wildfire')">
+                        <i class="fas fa-fire text-5xl text-red-500 mx-auto"></i>
+                        <h3 class="font-bold mt-4 text-lg" data-key="disasterWildfire">Wildfire</h3>
+                    </div>
+                    <!-- Disaster Card: Hurricane -->
+                    <div class="disaster-card bg-gray-50 p-6 rounded-xl text-center cursor-pointer" onclick="openModal('hurricane')">
+                        <i class="fas fa-hurricane text-5xl text-gray-600 mx-auto"></i>
+                        <h3 class="font-bold mt-4 text-lg" data-key="disasterHurricane">Hurricane</h3>
+                    </div>
+                    <!-- Disaster Card: Tsunami -->
+                    <div class="disaster-card bg-gray-50 p-6 rounded-xl text-center cursor-pointer" onclick="openModal('tsunami')">
+                        <i class="fas fa-person-swimming text-5xl text-teal-500 mx-auto"></i>
+                        <h3 class="font-bold mt-4 text-lg" data-key="disasterTsunami">Tsunami</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Preparedness Section -->
+        <section id="prepare" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2">
+                        <img src="https://placehold.co/600x400/3B82F6/FFFFFF?text=Family+Plan" alt="Family making a plan" class="rounded-xl shadow-lg w-full">
+                    </div>
+                    <div class="md:w-1/2">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4" data-key="planTitle">Create Your Family Emergency Plan</h2>
+                        <p class="text-gray-600 mb-6" data-key="planSubtitle">A plan helps you stay connected and safe when disaster strikes. Discuss these points with your family to create your plan today.</p>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span data-key="planPoint1"><strong>Meeting Places:</strong> Designate a safe spot inside your home, in your neighborhood, and out of town.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span data-key="planPoint2"><strong>Emergency Contacts:</strong> Keep a paper copy of important phone numbers. Include an out-of-state contact for everyone to call.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span data-key="planPoint3"><strong>Evacuation Routes:</strong> Know your community's evacuation routes and have a plan for how to leave if you need to.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Live Updates Section -->
+        <section id="live-updates" class="py-16 md:py-24 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold" data-key="liveUpdatesTitle">Live Disaster Updates</h2>
+                    <p class="text-gray-600 mt-2" data-key="liveUpdatesSubtitle">Information from official meteorological and geological departments.</p>
+                </div>
+                <div id="live-updates-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Live updates will be dynamically inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Emergency Kit Checklist -->
+        <section id="kit" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold" data-key="kitTitle">Build Your Emergency Kit</h2>
+                    <p class="text-gray-600 mt-2" data-key="kitSubtitle">Check off the essentials. Your progress is saved automatically.</p>
+                </div>
+                <div class="max-w-4xl mx-auto bg-gray-50 p-8 rounded-xl shadow-md">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" id="kit-checklist">
+                        <!-- Checklist items will be injected here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Informative Videos Section -->
+        <section id="videos" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold" data-key="videosTitle">Informative Videos</h2>
+                    <p class="text-gray-600 mt-2" data-key="videosSubtitle">Watch these short videos to learn more about disaster preparedness.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Video Card 1 -->
+                    <div class="video-card bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div class="aspect-w-16 aspect-h-9">
+                             <iframe src="https://www.youtube.com/embed/y3qCvRrn_3E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-bold text-lg mb-2" data-key="video1Title">How to Build an Emergency Kit</h3>
+                            <p class="text-gray-600 text-sm" data-key="video1Desc">Learn the essential items you need in your go-bag for any emergency situation.</p>
+                        </div>
+                    </div>
+                    <!-- Video Card 2 -->
+                     <div class="video-card bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div class="aspect-w-16 aspect-h-9">
+                           <iframe src="https://www.youtube.com/embed/GsdquIyv_4E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-bold text-lg mb-2" data-key="video2Title">Earthquake Safety: Drop, Cover, Hold On</h3>
+                            <p class="text-gray-600 text-sm" data-key="video2Desc">A simple and effective drill that can save your life during an earthquake.</p>
+                        </div>
+                    </div>
+                    <!-- Video Card 3 -->
+                    <div class="video-card bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div class="aspect-w-16 aspect-h-9">
+                           <iframe src="https://www.youtube.com/embed/OaC5_g-G4jA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
+                        </div>
+                         <div class="p-6">
+                            <h3 class="font-bold text-lg mb-2" data-key="video3Title">Flood Preparedness Tips</h3>
+                            <p class="text-gray-600 text-sm" data-key="video3Desc">Key steps to take before, during, and after a flood to keep your family safe.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Local Resources Section -->
+        <section id="resources" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold" data-key="resourcesTitle">Find Local Resources</h2>
+                    <p class="text-gray-600 mt-2" data-key="resourcesSubtitle">Key locations and their current status.</p>
+                     <div class="mt-4 max-w-sm mx-auto">
+                        <label for="city-search" class="sr-only" data-key="selectCityLabel">Search City</label>
+                        <input type="text" id="city-search" list="city-list" placeholder="Search for a city..." class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                        <datalist id="city-list">
+                           <!-- Options will be populated by JS -->
+                        </datalist>
+                    </div>
+                </div>
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <!-- Interactive Map -->
+                    <div class="lg:w-1/2 w-full h-96 lg:h-auto">
+                        <div id="map"></div>
+                    </div>
+                    <!-- Resources List -->
+                    <div class="lg:w-1/2 w-full">
+                        <div class="space-y-6">
+                            <!-- Grocery Stores -->
+                            <div>
+                                <h3 class="text-xl font-bold mb-3 flex items-center"><i class="fas fa-shopping-cart mr-3 text-blue-500"></i><span data-key="resourcesGrocery">Grocery Stores</span></h3>
+                                <ul class="space-y-3" id="grocery-list">
+                                    <!-- Dynamic content here -->
+                                </ul>
+                            </div>
+                             <!-- Hospitals -->
+                            <div>
+                                <h3 class="text-xl font-bold mb-3 flex items-center"><i class="fas fa-hospital mr-3 text-red-500"></i><span data-key="resourcesHospitals">Hospitals</span></h3>
+                                <ul class="space-y-3" id="hospital-list">
+                                    <!-- Dynamic content here -->
+                                </ul>
+                            </div>
+                             <!-- Shelters -->
+                            <div>
+                                <h3 class="text-xl font-bold mb-3 flex items-center"><i class="fas fa-house-chimney-user mr-3 text-purple-500"></i><span data-key="resourcesShelters">Emergency Shelters</span></h3>
+                                <ul class="space-y-3" id="shelter-list">
+                                     <!-- Dynamic content here -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact/Help Section -->
+        <section id="contact" class="py-16 md:py-24 bg-blue-700 text-white">
+            <div class="container mx-auto px-6 text-center">
+                 <h2 class="text-3xl md:text-4xl font-bold mb-4" data-key="emergencyTitle">In an Emergency?</h2>
+                 <p class="text-blue-200 max-w-2xl mx-auto mb-8" data-key="emergencySubtitle">Contact local emergency services immediately for assistance. Find local resources and shelters through official channels.</p>
+                 <div class="flex justify-center items-center gap-4">
+                     <div class="bg-white/20 p-4 rounded-lg">
+                         <i class="fas fa-phone text-3xl mb-2"></i>
+                         <p class="font-bold text-xl" data-key="emergencyCall">Call 911</p>
+                         <p data-key="emergencyCallSub">(Or your local emergency number)</p>
+                     </div>
+                     <div class="bg-white/20 p-4 rounded-lg">
+                          <i class="fas fa-broadcast-tower text-3xl mb-2"></i>
+                         <p class="font-bold text-xl" data-key="emergencyRadio">Tune to Local Radio</p>
+                         <p data-key="emergencyRadioSub">For official updates</p>
+                     </div>
+                 </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <p data-key="footerRights">&copy; 2025 SafeGuard Initiative. All Rights Reserved.</p>
+            <p class="text-gray-400 mt-2 text-sm" data-key="footerDisclaimer">This website is for informational purposes only. Always follow the guidance of local officials.</p>
+        </div>
+    </footer>
+
+    <!-- Disaster Info Modal -->
+    <div id="modal" class="modal-backdrop fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
+        <div id="modal-content" class="modal-content bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto transform scale-95">
+            <!-- Modal content will be injected here -->
+        </div>
+    </div>
+    
+    <!-- Leaflet JS for interactive map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        // --- TRANSLATION LOGIC ---
+        const translations = {
+            en: {
+                appName: "SafeGuard",
+                alertTitle: "URGENT ALERT:",
+                alertText: " Flash flood warning issued for the Delhi region. Seek higher ground immediately.",
+                navHome: "Home", navDisasters: "Disaster Types", navPrepare: "Prepare", navLiveUpdates: "Live Updates", navKit: "Emergency Kit", navVideos: "Videos", navResources: "Resources", navGetHelp: "Get Help",
+                navHomeMobile: "Home", navDisastersMobile: "Disaster Types", navPrepareMobile: "Prepare", navLiveUpdatesMobile: "Live Updates", navKitMobile: "Emergency Kit", navVideosMobile: "Videos", navResourcesMobile: "Resources", navGetHelpMobile: "Get Help",
+                heroTitle: "Preparedness Today, Safety Tomorrow.",
+                heroSubtitle: "Your complete guide to understanding, preparing for, and responding to natural disasters.",
+                heroCta: "Learn How to Prepare",
+                risksTitle: "Know The Risks",
+                risksSubtitle: "Click on a disaster type to learn how to prepare and react.",
+                disasterEarthquake: "Earthquake", disasterFlood: "Flood", disasterWildfire: "Wildfire", disasterHurricane: "Hurricane", disasterTsunami: "Tsunami",
+                planTitle: "Create Your Family Emergency Plan",
+                planSubtitle: "A plan helps you stay connected and safe when disaster strikes. Discuss these points with your family to create your plan today.",
+                planPoint1: "<strong>Meeting Places:</strong> Designate a safe spot inside your home, in your neighborhood, and out of town.",
+                planPoint2: "<strong>Emergency Contacts:</strong> Keep a paper copy of important phone numbers. Include an out-of-state contact for everyone to call.",
+                planPoint3: "<strong>Evacuation Routes:</strong> Know your community's evacuation routes and have a plan for how to leave if you need to.",
+                liveUpdatesTitle: "Live Disaster Updates",
+                liveUpdatesSubtitle: "Information from official meteorological and geological departments.",
+                severityHigh: "High Severity", severityModerate: "Moderate Severity", severityLow: "Low Severity",
+                updateCycloneTitle: "Cyclone Watch",
+                updateCycloneDesc: "A deep depression in the Bay of Bengal is likely to intensify. Coastal regions of Odisha and West Bengal are on high alert.",
+                updateCycloneLocation: "Bay of Bengal",
+                updateFloodTitle: "Flood Warning",
+                updateFloodDesc: "Heavy monsoon rains have caused the Brahmaputra river to swell. Low-lying areas in several districts of Assam are likely to be inundated.",
+                updateFloodLocation: "Assam River Basin",
+                updateHeatwaveTitle: "Heatwave Alert",
+                updateHeatwaveDesc: "Temperatures are expected to rise significantly across western Rajasthan. Residents are advised to avoid sun exposure during peak hours.",
+                updateHeatwaveLocation: "Western Rajasthan",
+                updateLandslideTitle: "Landslide Advisory",
+                updateLandslideDesc: "Due to incessant rainfall, there is a high risk of landslides in the hilly districts of Uttarakhand. Travellers are advised to be cautious.",
+                updateLandslideLocation: "Uttarakhand",
+                updateEarthquakeTitle: "Minor Earthquake",
+                updateEarthquakeDesc: "A minor earthquake of magnitude 3.5 was reported near the Nepal border. No damage has been reported so far.",
+                updateEarthquakeLocation: "Nepal Border Region",
+                timeUpdated: "Updated",
+                timeAgoMinute: "minute ago", timeAgoMinutes: "minutes ago", timeAgoHour: "hour ago", timeAgoHours: "hours ago",
+                kitTitle: "Build Your Emergency Kit",
+                kitSubtitle: "Check off the essentials. Your progress is saved automatically.",
+                videosTitle: "Informative Videos",
+                videosSubtitle: "Watch these short videos to learn more about disaster preparedness.",
+                video1Title: "How to Build an Emergency Kit",
+                video1Desc: "Learn the essential items you need in your go-bag for any emergency situation.",
+                video2Title: "Earthquake Safety: Drop, Cover, Hold On",
+                video2Desc: "A simple and effective drill that can save your life during an earthquake.",
+                video3Title: "Flood Preparedness Tips",
+                video3Desc: "Key steps to take before, during, and after a flood to keep your family safe.",
+                resourcesTitle: "Find Local Resources",
+                resourcesSubtitle: "Key locations and their current status.",
+                selectCityLabel: "Search City", cityDelhi: "Delhi", cityMumbai: "Mumbai", cityBengaluru: "Bengaluru", cityChennai: "Chennai", cityKolkata: "Kolkata", cityHyderabad: "Hyderabad", cityPune: "Pune", cityAhmedabad: "Ahmedabad", cityJaipur: "Jaipur", cityLucknow: "Lucknow", cityChandigarh: "Chandigarh",
+                resourcesGrocery: "Grocery Stores", resourcesHospitals: "Hospitals", resourcesShelters: "Emergency Shelters",
+                statusOpen: "Open", statusLimited: "Limited Hours", statusOperational: "Operational", statusCapacity: "At Capacity", statusAccepting: "Accepting",
+                emergencyTitle: "In an Emergency?",
+                emergencySubtitle: "Contact local emergency services immediately for assistance. Find local resources and shelters through official channels.",
+                emergencyCall: "Call 911", emergencyCallSub: "(Or your local emergency number)", emergencyRadio: "Tune to Local Radio", emergencyRadioSub: "For official updates",
+                footerRights: "© 2025 SafeGuard Initiative. All Rights Reserved.",
+                footerDisclaimer: "This website is for informational purposes only. Always follow the guidance of local officials."
+            },
+            hi: {
+                appName: "सेफगार्ड",
+                alertTitle: "अत्यावश्यक चेतावनी:",
+                alertText: " दिल्ली क्षेत्र के लिए अचानक बाढ़ की चेतावनी जारी। तुरंत ऊंचे स्थान पर जाएं।",
+                navHome: "होम", navDisasters: "आपदा प्रकार", navPrepare: "तैयारी", navLiveUpdates: "लाइव अपडेट", navKit: "आपातकालीन किट", navVideos: "वीडियो", navResources: "संसाधन", navGetHelp: "मदद लें",
+                navHomeMobile: "होम", navDisastersMobile: "आपदा प्रकार", navPrepareMobile: "तैयारी", navLiveUpdatesMobile: "लाइव अपडेट", navKitMobile: "आपातकालीन किट", navVideosMobile: "वीडियो", navResourcesMobile: "संसाधन", navGetHelpMobile: "मदद लें",
+                heroTitle: "आज की तैयारी, कल की सुरक्षा।",
+                heroSubtitle: "प्राकृतिक आपदाओं को समझने, तैयारी करने और प्रतिक्रिया देने के लिए आपकी पूरी गाइड।",
+                heroCta: "तैयारी करना सीखें",
+                risksTitle: "जोखिमों को जानें",
+                risksSubtitle: "तैयारी और प्रतिक्रिया कैसे करें, यह जानने के लिए आपदा प्रकार पर क्लिक करें।",
+                disasterEarthquake: "भूकंप", disasterFlood: "बाढ़", disasterWildfire: "जंगल की आग", disasterHurricane: "तूफ़ान", disasterTsunami: "सुनामी",
+                planTitle: "अपनी पारिवारिक आपातकालीन योजना बनाएं",
+                planSubtitle: "एक योजना आपको आपदा आने पर जुड़े रहने और सुरक्षित रहने में मदद करती है। आज ही अपनी योजना बनाने के लिए इन बिंदुओं पर अपने परिवार से चर्चा करें।",
+                planPoint1: "<strong>मिलने की जगहें:</strong> अपने घर के अंदर, अपने पड़ोस में और शहर के बाहर एक सुरक्षित स्थान निर्धारित करें।",
+                planPoint2: "<strong>आपातकालीन संपर्क:</strong> महत्वपूर्ण फोन नंबरों की एक कागजी प्रति रखें। सभी को कॉल करने के लिए एक राज्य के बाहर का संपर्क शामिल करें।",
+                planPoint3: "<strong>निकासी मार्ग:</strong> अपने समुदाय के निकासी मार्गों को जानें और यदि आपको जाने की आवश्यकता है तो एक योजना बनाएं।",
+                liveUpdatesTitle: "लाइव आपदा अपडेट",
+                liveUpdatesSubtitle: "आधिकारिक मौसम विज्ञान और भूवैज्ञानिक विभागों से जानकारी।",
+                severityHigh: "उच्च गंभीरता", severityModerate: "मध्यम गंभीरता", severityLow: "कम गंभीरता",
+                updateCycloneTitle: "चक्रवात की चेतावनी",
+                updateCycloneDesc: "बंगाल की खाड़ी में एक गहरा दबाव तीव्र होने की संभावना है। ओडिशा और पश्चिम बंगाल के तटीय क्षेत्रों में हाई अलर्ट है।",
+                updateCycloneLocation: "बंगाल की खाड़ी",
+                updateFloodTitle: "बाढ़ की चेतावनी",
+                updateFloodDesc: "भारी मानसूनी बारिश के कारण ब्रह्मपुत्र नदी में उफान आ गया है। असम के कई जिलों के निचले इलाकों में पानी भरने की संभावना है।",
+                updateFloodLocation: "असम नदी बेसिन",
+                updateHeatwaveTitle: "लू की चेतावनी",
+                updateHeatwaveDesc: "पश्चिमी राजस्थान में तापमान में उल्लेखनीय वृद्धि की उम्मीद है। निवासियों को पीक आवर्स के दौरान धूप में निकलने से बचने की सलाह दी जाती है।",
+                updateHeatwaveLocation: "पश्चिमी राजस्थान",
+                updateLandslideTitle: "भूस्खलन की सलाह",
+                updateLandslideDesc: "लगातार हो रही बारिश के कारण उत्तराखंड के पहाड़ी जिलों में भूस्खलन का खतरा बढ़ गया है। यात्रियों को सतर्क रहने की सलाह दी जाती है।",
+                updateLandslideLocation: "उत्तराखंड",
+                updateEarthquakeTitle: "मामूली भूकंप",
+                updateEarthquakeDesc: "नेपाल सीमा के पास 3.5 तीव्रता का मामूली भूकंप दर्ज किया गया। अभी तक किसी नुकसान की सूचना नहीं है।",
+                updateEarthquakeLocation: "नेपाल सीमा क्षेत्र",
+                timeUpdated: "अपडेट",
+                timeAgoMinute: "मिनट पहले", timeAgoMinutes: "मिनट पहले", timeAgoHour: "घंटा पहले", timeAgoHours: "घंटे पहले",
+                kitTitle: "अपनी आपातकालीन किट बनाएं",
+                kitSubtitle: "आवश्यक वस्तुओं को चेक करें। आपकी प्रगति स्वचालित रूप से सहेजी जाती है।",
+                videosTitle: "जानकारीपूर्ण वीडियो",
+                videosSubtitle: "आपदा की तैयारी के बारे में और जानने के लिए ये छोटे वीडियो देखें।",
+                video1Title: "आपातकालीन किट कैसे बनाएं",
+                video1Desc: "किसी भी आपातकालीन स्थिति के लिए अपने गो-बैग में आवश्यक वस्तुओं को जानें।",
+                video2Title: "भूकंप सुरक्षा: झुकें, ढकें, पकड़ें",
+                video2Desc: "एक सरल और प्रभावी ड्रिल जो भूकंप के दौरान आपकी जान बचा सकती है।",
+                video3Title: "बाढ़ की तैयारी के टिप्स",
+                video3Desc: "बाढ़ से पहले, दौरान और बाद में अपने परिवार को सुरक्षित रखने के लिए महत्वपूर्ण कदम।",
+                resourcesTitle: "स्थानीय संसाधन खोजें",
+                resourcesSubtitle: "प्रमुख स्थान और उनकी वर्तमान स्थिति।",
+                selectCityLabel: "शहर खोजें", cityDelhi: "दिल्ली", cityMumbai: "मुंबई", cityBengaluru: "बेंगलुरु", cityChennai: "चेन्नई", cityKolkata: "कोलकाता", cityHyderabad: "हैदराबाद", cityPune: "पुणे", cityAhmedabad: "अहमदाबाद", cityJaipur: "जयपुर", cityLucknow: "लखनऊ", cityChandigarh: "चंडीगढ़",
+                resourcesGrocery: "किराना स्टोर", resourcesHospitals: "अस्पताल", resourcesShelters: "आपातकालीन आश्रय",
+                statusOpen: "खुला", statusLimited: "सीमित घंटे", statusOperational: "चालू", statusCapacity: "पूरी क्षमता पर", statusAccepting: "स्वीकार कर रहे हैं",
+                emergencyTitle: "आपातकाल में?",
+                emergencySubtitle: "सहायता के लिए तुरंत स्थानीय आपातकालीन सेवाओं से संपर्क करें। आधिकारिक चैनलों के माध्यम से स्थानीय संसाधन और आश्रय खोजें।",
+                emergencyCall: "911 पर कॉल करें", emergencyCallSub: "(या आपका स्थानीय आपातकालीन नंबर)", emergencyRadio: "स्थानीय रेडियो सुनें", emergencyRadioSub: "आधिकारिक अपडेट के लिए",
+                footerRights: "© 2025 सेफगार्ड पहल। सर्वाधिकार सुरक्षित।",
+                footerDisclaimer: "यह वेबसाइट केवल सूचना के उद्देश्यों के लिए है। हमेशा स्थानीय अधिकारियों के मार्गदर्शन का पालन करें।"
+            }
+        };
+
+        let currentLang = 'en';
+
+        const setLanguage = (lang) => {
+            currentLang = lang;
+            document.querySelectorAll('[data-key]').forEach(elem => {
+                const key = elem.dataset.key;
+                if (translations[lang] && translations[lang][key]) {
+                    if (key.includes('planPoint')) {
+                         elem.innerHTML = translations[lang][key];
+                    } else if (key === 'alertText') {
+                        const title = translations[lang]['alertTitle'] || '';
+                        const text = translations[lang][key] || '';
+                        elem.innerHTML = `<strong class="font-bold mr-2">${title}</strong>${text}`;
+                    }
+                    else {
+                        elem.textContent = translations[lang][key];
+                    }
+                }
+            });
+            localStorage.setItem('language', lang);
+            updateLangButtons(lang);
+            generateLiveUpdates(); // Re-generate updates with new language
+        };
+        
+        const updateLangButtons = (lang) => {
+            document.querySelectorAll('.lang-btn, .lang-btn-mobile').forEach(btn => {
+                if (btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        };
+
+        document.getElementById('language-switcher').addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') setLanguage(e.target.dataset.lang);
+        });
+        document.getElementById('language-switcher-mobile').addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') setLanguage(e.target.dataset.lang);
+        });
+
+        // --- DYNAMIC LIVE UPDATES LOGIC ---
+        const liveUpdatesData = [
+            { severity: 'high', titleKey: 'updateCycloneTitle', descKey: 'updateCycloneDesc', locationKey: 'updateCycloneLocation', icon: 'fa-wind' },
+            { severity: 'moderate', titleKey: 'updateFloodTitle', descKey: 'updateFloodDesc', locationKey: 'updateFloodLocation', icon: 'fa-water' },
+            { severity: 'low', titleKey: 'updateHeatwaveTitle', descKey: 'updateHeatwaveDesc', locationKey: 'updateHeatwaveLocation', icon: 'fa-sun' },
+            { severity: 'moderate', titleKey: 'updateLandslideTitle', descKey: 'updateLandslideDesc', locationKey: 'updateLandslideLocation', icon: 'fa-mountain-city' },
+            { severity: 'low', titleKey: 'updateEarthquakeTitle', descKey: 'updateEarthquakeDesc', locationKey: 'updateEarthquakeLocation', icon: 'fa-house-crack' },
+        ];
+        
+        function formatTimeAgo(minutesAgo, lang) {
+            const t = translations[lang];
+            if (minutesAgo < 60) {
+                return `${minutesAgo} ${minutesAgo === 1 ? t.timeAgoMinute : t.timeAgoMinutes}`;
+            }
+            const hoursAgo = Math.floor(minutesAgo / 60);
+            return `${hoursAgo} ${hoursAgo === 1 ? t.timeAgoHour : t.timeAgoHours}`;
+        }
+        
+        function generateLiveUpdates() {
+            const container = document.getElementById('live-updates-container');
+            container.innerHTML = ''; // Clear existing content
+            
+            // Shuffle and pick 3 updates
+            const shuffledUpdates = [...liveUpdatesData].sort(() => 0.5 - Math.random());
+            const selectedUpdates = shuffledUpdates.slice(0, 3);
+            
+            let minutesCounter = 5; // Start with 5 minutes ago
+
+            selectedUpdates.forEach(update => {
+                const t = translations[currentLang];
+                let severityClass = '';
+                let severityText = '';
+
+                switch (update.severity) {
+                    case 'high':
+                        severityClass = 'border-red-500';
+                        severityText = `<span class="text-red-500 bg-red-100 text-xs font-bold px-2.5 py-1 rounded-full">${t.severityHigh}</span>`;
+                        break;
+                    case 'moderate':
+                        severityClass = 'border-orange-500';
+                        severityText = `<span class="text-orange-500 bg-orange-100 text-xs font-bold px-2.5 py-1 rounded-full">${t.severityModerate}</span>`;
+                        break;
+                    case 'low':
+                        severityClass = 'border-yellow-500';
+                        severityText = `<span class="text-yellow-800 bg-yellow-100 text-xs font-bold px-2.5 py-1 rounded-full">${t.severityLow}</span>`;
+                        break;
+                }
+                
+                const timeAgo = formatTimeAgo(minutesCounter, currentLang);
+                minutesCounter += Math.floor(Math.random() * 55) + 15; // Increment time for next update
+
+                const cardHTML = `
+                    <div class="update-card bg-white p-6 rounded-lg shadow-md border-l-4 ${severityClass}">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                ${severityText}
+                                <h3 class="font-bold text-xl mt-2">${t[update.titleKey]}</h3>
+                            </div>
+                            <i class="fas ${update.icon} text-4xl text-gray-400"></i>
+                        </div>
+                        <p class="text-gray-700 my-3">${t[update.descKey]}</p>
+                        <p class="text-sm text-gray-500"><i class="fas fa-map-marker-alt mr-1"></i> ${t[update.locationKey]}</p>
+                        <p class="text-sm text-gray-500 mt-1"><i class="fas fa-clock mr-1"></i> ${t.timeUpdated}: ${timeAgo}</p>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        // --- MAP & RESOURCES LOGIC ---
+        const cityData = {
+            delhi: { name: "Delhi", coords: [28.6139, 77.2090], zoom: 11, resources: [{ name: 'Modern Bazaar', address: 'Connaught Place', type: 'grocery', status: 'Open', coords: [28.6324, 77.2167] }, { name: '24Seven', address: 'Saket', type: 'grocery', status: 'Limited Hours', coords: [28.5246, 77.2118] }, { name: 'AIIMS, New Delhi', address: 'Ansari Nagar', type: 'hospital', status: 'Operational', coords: [28.5662, 77.2109] }, { name: 'Max Healthcare', address: 'Saket', type: 'hospital', status: 'At Capacity', coords: [28.5283, 77.2115] }, { name: 'Community Center, Sector 8', address: 'Dwarka', type: 'shelter', status: 'Accepting', coords: [28.5921, 77.0460] }] },
+            mumbai: { name: "Mumbai", coords: [19.0760, 72.8777], zoom: 11, resources: [{ name: 'Nature\'s Basket', address: 'Bandra West', type: 'grocery', status: 'Open', coords: [19.0645, 72.8302] }, { name: 'Star Market', address: 'Andheri East', type: 'grocery', status: 'Open', coords: [19.1175, 72.8631] }, { name: 'Lilavati Hospital', address: 'Bandra West', type: 'hospital', status: 'Operational', coords: [19.0602, 72.8310] }, { name: 'KEM Hospital', address: 'Parel', type: 'hospital', status: 'Operational', coords: [19.0096, 72.8428] }, { name: 'Andheri Sports Complex', address: 'Andheri West', type: 'shelter', status: 'Accepting', coords: [19.1244, 72.8272] }] },
+            bengaluru: { name: "Bengaluru", coords: [12.9716, 77.5946], zoom: 12, resources: [{ name: 'MK Retail', address: 'Indiranagar', type: 'grocery', status: 'Open', coords: [12.9784, 77.6408] }, { name: 'More Supermarket', address: 'Koramangala', type: 'grocery', status: 'Limited Hours', coords: [12.9352, 77.6245] }, { name: 'Manipal Hospital', address: 'Old Airport Road', type: 'hospital', status: 'Operational', coords: [12.9602, 77.6487] }, { name: 'Fortis Hospital', address: 'Bannerghatta Road', type: 'hospital', status: 'Operational', coords: [12.8797, 77.5970] }, { name: 'Kanteerava Indoor Stadium', address: 'Sampangi Rama Nagara', type: 'shelter', status: 'Accepting', coords: [12.9676, 77.5898] }] },
+            chennai: { name: "Chennai", coords: [13.0827, 80.2707], zoom: 11, resources: [{ name: 'Niligiris', address: 'Alwarpet', type: 'grocery', status: 'Open', coords: [13.0364, 80.2526] }, { name: 'Grace Supermarket', address: 'Anna Nagar', type: 'grocery', status: 'Open', coords: [13.0848, 80.2101] }, { name: 'Apollo Hospitals', address: 'Greams Road', type: 'hospital', status: 'Operational', coords: [13.0604, 80.2530] }, { name: 'MIOT International', address: 'Manapakkam', type: 'hospital', status: 'Operational', coords: [13.0135, 80.1772] }, { name: 'Nehru Indoor Stadium', address: 'Periyamet', type: 'shelter', status: 'Accepting', coords: [13.0858, 80.2676] }] },
+            kolkata: { name: "Kolkata", coords: [22.5726, 88.3639], zoom: 11, resources: [{ name: 'Spencer\'s Retail', address: 'South City Mall', type: 'grocery', status: 'Open', coords: [22.4965, 88.3653] }, { name: 'Apollo Gleneagles Hospital', address: 'Canal Circular Road', type: 'hospital', status: 'Operational', coords: [22.5756, 88.4042] }, { name: 'Netaji Indoor Stadium', address: 'Eden Gardens', type: 'shelter', status: 'Accepting', coords: [22.5651, 88.3427] }] },
+            hyderabad: { name: "Hyderabad", coords: [17.3850, 78.4867], zoom: 11, resources: [{ name: 'Ratnadeep Supermarket', address: 'Banjara Hills', type: 'grocery', status: 'Open', coords: [17.4154, 78.4447] }, { name: 'Yashoda Hospitals', address: 'Somajiguda', type: 'hospital', status: 'Operational', coords: [17.4246, 78.4578] }, { name: 'Gachibowli Indoor Stadium', address: 'Gachibowli', type: 'shelter', status: 'Accepting', coords: [17.4475, 78.3491] }] },
+            pune: { name: "Pune", coords: [18.5204, 73.8567], zoom: 11, resources: [{ name: 'Dorabjee\'s', address: 'Camp', type: 'grocery', status: 'Open', coords: [18.5173, 73.8822] }, { name: 'Ruby Hall Clinic', address: 'Dhole Patil Road', type: 'hospital', status: 'Operational', coords: [18.5323, 73.8824] }, { name: 'Shree Shiv Chhatrapati Sports Complex', address: 'Balewadi', type: 'shelter', status: 'Accepting', coords: [18.5779, 73.7694] }] },
+            ahmedabad: { name: "Ahmedabad", coords: [23.0225, 72.5714], zoom: 11, resources: [{ name: 'Star Bazaar', address: 'Satellite', type: 'grocery', status: 'Open', coords: [23.0331, 72.5097] }, { name: 'Sterling Hospital', address: 'Memnagar', type: 'hospital', status: 'Operational', coords: [23.0561, 72.5284] }, { name: 'Sardar Patel Stadium', address: 'Motera', type: 'shelter', status: 'Accepting', coords: [23.0931, 72.5954] }] },
+            jaipur: { name: "Jaipur", coords: [26.9124, 75.7873], zoom: 11, resources: [{ name: 'Reliance Fresh', address: 'Vaishali Nagar', type: 'grocery', status: 'Open', coords: [26.9069, 75.7483] }, { name: 'Fortis Escorts Hospital', address: 'Malviya Nagar', type: 'hospital', status: 'Operational', coords: [26.8517, 75.8049] }, { name: 'Sawai Mansingh Indoor Stadium', address: 'Rambagh', type: 'shelter', status: 'Accepting', coords: [26.8961, 75.7993] }] },
+            lucknow: { name: "Lucknow", coords: [26.8467, 80.9462], zoom: 11, resources: [{ name: 'Spencer\'s', address: 'Hazratganj', type: 'grocery', status: 'Open', coords: [26.8488, 80.9419] }, { name: 'Medanta Hospital', address: 'Gomti Nagar', type: 'hospital', status: 'Operational', coords: [26.8524, 81.0067] }, { name: 'K. D. Singh Babu Stadium', address: 'Hazratganj', type: 'shelter', status: 'Accepting', coords: [26.8566, 80.9452] }] },
+            chandigarh: { name: "Chandigarh", coords: [30.7333, 76.7794], zoom: 12, resources: [{ name: 'Elante Mall Grocery', address: 'Industrial Area Phase I', type: 'grocery', status: 'Open', coords: [30.7056, 76.8013] }, { name: 'PGIMER', address: 'Sector 12', type: 'hospital', status: 'Operational', coords: [30.7656, 76.7686] }, { name: 'Sector 42 Hockey Stadium', address: 'Sector 42-B', type: 'shelter', status: 'Accepting', coords: [30.7259, 76.7554] }] }
+        };
+
+        let map;
+        const markers = []; // To keep track of markers on the map
+
+        const statusClasses = {
+            Open: 'text-green-600 bg-green-100', 'Limited Hours': 'text-yellow-600 bg-yellow-100',
+            Operational: 'text-green-600 bg-green-100', 'At Capacity': 'text-red-600 bg-red-100',
+            Accepting: 'text-green-600 bg-green-100'
+        };
+
+        const updateCity = (cityNameKey) => {
+            const city = cityData[cityNameKey];
+            if (!city) return;
+
+            map.setView(city.coords, city.zoom);
+            markers.forEach(marker => map.removeLayer(marker));
+            markers.length = 0; 
+
+            document.getElementById('grocery-list').innerHTML = '';
+            document.getElementById('hospital-list').innerHTML = '';
+            document.getElementById('shelter-list').innerHTML = '';
+
+            city.resources.forEach(resource => {
+                const marker = L.marker(resource.coords).addTo(map)
+                    .bindPopup(`<b>${resource.name}</b><br>${resource.address}<br>Status: ${resource.status}`);
+                markers.push(marker);
+                
+                const listEl = document.getElementById(`${resource.type}-list`);
+                if (listEl) {
+                    const statusClass = statusClasses[resource.status] || 'text-gray-600 bg-gray-100';
+                    const listItem = document.createElement('li');
+                    listItem.className = 'bg-white p-4 rounded-lg shadow-sm flex justify-between items-center';
+                    listItem.innerHTML = `<div><p class="font-semibold">${resource.name}</p><p class="text-sm text-gray-500">${resource.address}</p></div><span class="text-sm font-bold ${statusClass} px-3 py-1 rounded-full">${resource.status}</span>`;
+                    listEl.appendChild(listItem);
+                }
+            });
+        };
+        
+        const populateCityDatalist = () => {
+            const datalist = document.getElementById('city-list');
+            datalist.innerHTML = '';
+            for (const key in cityData) {
+                const option = document.createElement('option');
+                option.value = cityData[key].name;
+                datalist.appendChild(option);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('language') || 'en';
+            setLanguage(savedLang); // This will also call generateLiveUpdates
+
+            map = L.map('map');
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+            
+            populateCityDatalist();
+            updateCity('delhi');
+            document.getElementById('city-search').value = "Delhi";
+
+
+            document.getElementById('city-search').addEventListener('input', (e) => {
+                const userInput = e.target.value.trim().toLowerCase();
+                const cityKey = Object.keys(cityData).find(key => cityData[key].name.toLowerCase() === userInput);
+                if (cityKey) {
+                    updateCity(cityKey);
+                }
+            });
+        });
+        
+        // --- EXISTING SCRIPT ---
+        
+        const alertBanner = document.getElementById('alert-banner');
+        const closeAlertBtn = document.getElementById('close-alert-btn');
+        const bodyEl = document.querySelector('body');
+
+        if (alertBanner && closeAlertBtn && bodyEl) {
+            bodyEl.style.paddingTop = alertBanner.offsetHeight + 'px';
+            closeAlertBtn.addEventListener('click', () => {
+                alertBanner.style.transform = 'translateY(-100%)';
+                bodyEl.style.paddingTop = '0';
+            });
+            window.addEventListener('resize', () => {
+                if (alertBanner.style.transform === 'translateY(-100%)') { bodyEl.style.paddingTop = '0'; } 
+                else { bodyEl.style.paddingTop = alertBanner.offsetHeight + 'px'; }
+            });
+        }
+
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modal-content');
+
+        const disasterData = {
+             earthquake: { title: 'Earthquake Safety', icon: 'fas fa-house-crack text-yellow-500', image: 'https://placehold.co/800x400/FBBF24/FFFFFF?text=Earthquake+Safety', content: `<div class="p-6 md:p-8"><h4 class="font-bold text-xl mb-2">Before:</h4><ul class="list-disc list-inside text-gray-600 space-y-1 mb-6"><li>Secure heavy furniture to walls.</li><li>Create a family plan and build an emergency kit.</li><li>Identify safe spots in each room (under a sturdy table, against an interior wall).</li></ul><h4 class="font-bold text-xl mb-2">During:</h4><ul class="list-disc list-inside text-gray-600 space-y-1 mb-6"><li><strong>Drop, Cover, and Hold On.</strong></li><li>If indoors, stay inside. If outdoors, stay in an open area away from buildings and wires.</li><li>If in a vehicle, pull over, stop, and set your parking brake.</li></ul><h4 class="font-bold text-xl mb-2">After:</h4><ul class="list-disc list-inside text-gray-600 space-y-1"><li>Check for injuries and damage.</li><li>Be prepared for aftershocks.</li><li>Listen to authorities for information and instructions.</li></ul></div>`},
+             flood: { title: 'Flood Safety', icon: 'fas fa-water text-blue-500', image: 'https://placehold.co/800x400/3B82F6/FFFFFF?text=Flood+Safety', content: `<div class="p-6 md:p-8"><h4 class="font-bold text-xl mb-2">Before:</h4><ul class="list-disc list-inside text-gray-600 space-y-1 mb-6"><li>Know your flood risk and elevation.</li><li>Prepare a "go bag" and make an evacuation plan.</li><li>Elevate and anchor critical utilities like electrical panels and water heaters.</li></ul><h4 class="font-bold text-xl mb-2">During:</h4><ul class="list-disc list-inside text-gray-600 space-y-1 mb-6"><li>Evacuate immediately if advised.</li><li>Move to higher ground. Do not walk or drive through floodwaters.</li><li>Listen to a battery-powered radio for the latest updates.</li></ul><h4 class="font-bold text-xl mb-2">After:</h4><ul class="list-disc list-inside text-gray-600 space-y-1"><li>Return home only when authorities say it is safe.</li><li>Avoid floodwater as it may be contaminated.</li><li>Document damage with photos for insurance purposes.</li></ul></div>` },
+             wildfire: { title: 'Wildfire Safety', icon: 'fas fa-fire text-red-500', image: 'https://placehold.co/800x400/EF4444/FFFFFF?text=Wildfire+Safety', content: `<div class="p-6 md:p-8"><h4 class="font-bold text-xl mb-2">Before:</h4><ul class="list-disc list-inside text-gray-600 space-y-1 mb-6"><li>Create a defensible space around your home by clearing flammable materials.</li><li>Use fire-resistant materials for construction and landscaping.</li><li>Have an evacuation plan and practice it.</li></ul><h4 class="font-bold text-xl mb-2">During:</h4><ul class="list-disc list-inside text-gray-600 space-y-1 mb-6"><li>Evacuate immediately if told to do so. Don't wait.</li><li>If trapped, find a body of water or a clearing away from vegetation.</li><li>Monitor news and official channels for updates on fire movement.</li></ul><h4 class="font-bold text-xl mb-2">After:</h4><ul class="list-disc list-inside text-gray-600 space-y-1"><li>Do not return home until officials declare it safe.</li><li>Check for hotspots and smoldering embers around your property.</li><li>Be aware of potential flash floods or landslides due to burnt ground.</li></ul></div>`},
+             hurricane: { title: 'Hurricane Safety', icon: 'fas fa-hurricane text-gray-600', image: 'https://placehold.co/800x400/6B7280/FFFFFF?text=Hurricane+Safety', content: `<div class="p-6 md:p-8"><h4 class="font-bold text-xl mb-2">Before:</h4><ul class="list-disc list-inside text-gray-600 space-y-1 mb-6"><li>Board up windows and secure outdoor objects.</li><li>Know your evacuation zone and have a plan.</li><li>Keep your vehicle's gas tank full.</li></ul><h4 class="font-bold text-xl mb-2">During:</h4><ul class="list-disc list-inside text-gray-600 space-y-1 mb-6"><li>Stay indoors, away from windows and glass doors.</li><li>If power goes out, use flashlights instead of candles.</li><li>Do not go outside, even if the storm seems to calm (it could be the eye of the storm).</li></ul><h4 class="font-bold text-xl mb-2">After:</h4><ul class="list-disc list-inside text-gray-600 space-y-1"><li>Listen to authorities before leaving your shelter.</li><li>Avoid downed power lines and floodwaters.</li><li>Check on neighbors, especially the elderly or those with special needs.</li></ul></div>`},
+             tsunami: { title: 'Tsunami Safety', icon: 'fas fa-person-swimming text-teal-500', image: 'https://placehold.co/800x400/14B8A6/FFFFFF?text=Tsunami+Safety', content: `<div class="p-6 md:p-8"><h4 class="font-bold text-xl mb-2">Know the Signs:</h4><ul class="list-disc list-inside text-gray-600 space-y-1 mb-6"><li>A strong earthquake causing difficulty standing.</li><li>A loud roar from the ocean.</li><li>An unusual and sudden fall or rise in sea level.</li></ul><h4 class="font-bold text-xl mb-2">What to Do:</h4><ul class="list-disc list-inside text-gray-600 space-y-1 mb-6"><li>If you observe any warning signs, evacuate to high ground as far inland as possible immediately.</li><li>Do not wait for official warnings.</li><li>Stay away from the coast until officials declare it safe to return.</li></ul><h4 class="font-bold text-xl mb-2">After:</h4><ul class="list-disc list-inside text-gray-600 space-y-1"><li>Continue listening to a safe information source.</li><li>Be aware that waves may continue to arrive for hours.</li><li>Stay out of any buildings with water around them.</li></ul></div>`}
+        };
+
+        function openModal(disasterType) {
+            const data = disasterData[disasterType]; if (!data) return;
+            modalContent.innerHTML = `<div class="relative"><button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl z-10"><i class="fas fa-times-circle"></i></button><img src="${data.image}" alt="${data.title}" class="w-full h-48 object-cover rounded-t-lg"><div class="p-6 md:p-8"><div class="flex items-center mb-4"><i class="${data.icon} text-3xl mr-3"></i><h3 class="text-2xl font-bold">${data.title}</h3></div>${data.content}</div></div>`;
+            modal.classList.remove('opacity-0', 'pointer-events-none'); modalContent.classList.remove('scale-95');
+        }
+        function closeModal() { modal.classList.add('opacity-0', 'pointer-events-none'); modalContent.classList.add('scale-95'); }
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+        const kitItems = [
+            { id: 'water', text: 'Water (1 gallon/person/day)', icon: 'fas fa-tint' }, { id: 'food', text: 'Non-perishable food (3-day supply)', icon: 'fas fa-cookie-bite' }, { id: 'radio', text: 'Battery-powered radio', icon: 'fas fa-broadcast-tower' }, { id: 'flashlight', text: 'Flashlight and extra batteries', icon: 'fas fa-lightbulb' }, { id: 'first_aid', text: 'First-aid kit', icon: 'fas fa-medkit' }, { id: 'whistle', text: 'Whistle to signal for help', icon: 'fas fa-bullhorn' }, { id: 'mask', text: 'Dust mask', icon: 'fas fa-head-side-mask' }, { id: 'can_opener', text: 'Manual can opener', icon: 'fas fa-hand-paper' }, { id: 'meds', text: 'Medications', icon: 'fas fa-pills' }, { id: 'documents', text: 'Important documents', icon: 'fas fa-file-alt' }, { id: 'cash', text: 'Cash or traveler\'s checks', icon: 'fas fa-money-bill-wave' }, { id: 'phone_charger', text: 'Cell phone with chargers', icon: 'fas fa-mobile-alt' }
+        ];
+        const kitChecklistContainer = document.getElementById('kit-checklist');
+        let checkedItems = JSON.parse(localStorage.getItem('disasterKit')) || {};
+        function renderKitItems() {
+            kitChecklistContainer.innerHTML = '';
+            kitItems.forEach(item => {
+                const isChecked = checkedItems[item.id];
+                kitChecklistContainer.innerHTML += `<label for="${item.id}" class="flex items-center p-4 rounded-lg cursor-pointer transition ${isChecked ? 'bg-green-100 text-green-800' : 'bg-white hover:bg-gray-100'}"><input type="checkbox" id="${item.id}" class="hidden" ${isChecked ? 'checked' : ''}><div class="w-6 h-6 mr-4 border-2 ${isChecked ? 'border-green-500 bg-green-500' : 'border-gray-300'} rounded flex items-center justify-center">${isChecked ? '<i class="fas fa-check text-white text-sm"></i>' : ''}</div><i class="${item.icon} mr-3 ${isChecked ? 'text-green-600' : 'text-gray-500'}"></i><span class="flex-1">${item.text}</span></label>`;
+            });
+        }
+        kitChecklistContainer.addEventListener('change', e => {
+            if(e.target.type === 'checkbox') {
+                checkedItems[e.target.id] = e.target.checked;
+                localStorage.setItem('disasterKit', JSON.stringify(checkedItems));
+                renderKitItems();
+            }
+        });
+        renderKitItems();
+    </script>
+</body>
+</html> -->

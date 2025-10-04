@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEEVAN-SETU</title>
+    <link rel="stylesheet" href="style.css">
+    
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Disaster Management Relief Portal</title>
+  <meta name="description" content="Public alerts, preparedness resources, and reporting for disasters across India." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Small weather card styling */
+    .weather-card {
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      margin-top: 12px;
+    }
+
+
+    body {
+      margin:0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e3a8a, #2563eb);
+      background-size: 300% 300%;
+      animation: gradientShift 12s ease infinite;
+      color:#f9fafb;
+      scroll-behavior:smooth;
+    }
+    @keyframes gradientShift {
+      0% {background-position:0% 50%}
+      50% {background-position:100% 50%}
+      100% {background-position:0% 50%}
+    }
+    @keyframes fadeIn { to {opacity:1;} }
+    @keyframes pulse { 0%,100% {transform: scale(1)} 50% {transform: scale(1.08)} }
+    @keyframes bounce {
+      0%,20%,50%,80%,100%{ transform:translateY(0) }
+      40%{ transform:translateY(-14px) }
+      60%{ transform:translateY(-8px) }
+    }
+
+    header {
+      display:flex; align-items:center; justify-content:flex-start;
+      background:#2c4faf; color:#fff;
+      padding:40px;
+      font-weight:800; font-size:2.5rem;
+      font-family: 'Trebuchet MS', sans-serif;
+      opacity:0; animation: fadeIn 1.5s forwards;
+    }
+    header img { height:200px; margin-right:50px; }
+    nav {
+      display:flex; justify-content:center; flex-wrap:wrap;
+      background:#fff; color:#111;
+      padding:14px 0; box-shadow:0 2px 6px rgba(0,0,0,0.2);
+      opacity:0; animation: fadeIn 2s forwards; animation-delay:0.5s;
+      position:sticky; top:0; z-index:100;
+    }
+    nav a {
+      margin:0 15px; text-decoration:none; color:#111;
+      font-weight:600; font-size:1rem; transition:0.3s;
+    }
+    nav a:hover { color:#2563eb; }
+    section {
+      min-height:85vh; display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      padding:40px 20px; text-align:center;
+    }
+    section h2 { font-size:2.5rem; margin-bottom:20px; color:#fff; }
+    section p { max-width:800px; line-height:1.6; font-size:1.1rem; color:#e2e8f0; }
+
+    #home { min-height:55vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
+    .logo {
+      width:200px; height:200px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      margin:auto; font-size:30px; font-weight:700;
+      background: radial-gradient(circle at 30% 30%, #38bdf8, #0ea5e9);
+      color:#fff; box-shadow:0 0 30px rgba(56,189,248,0.6);
+      animation: pulse 3s infinite;
+    }
+    .tagline { margin-top:15px; font-size:1.5rem; font-weight:700; color:#e2e8f0; }
+    .icons { margin-top:28px; display:flex; gap:24px; justify-content:center; font-size:32px; }
+    .icons span { display:inline-block; animation:bounce 2s infinite; transition: all .3s ease; }
+    .icons span:nth-child(2){ animation-delay:.2s }
+    .icons span:nth-child(3){ animation-delay:.4s }
+    .icons span:nth-child(4){ animation-delay:.6s }
+    .icons span:nth-child(5){ animation-delay:.8s }
+    .icons span:hover{ text-shadow:0 0 12px rgba(255,255,255,0.8); transform: scale(1.2); }
+
+    #home{ background:transparent; }
+    #about{ background:rgba(30,58,138,0.85); }
+    #features{ background:rgba(37,99,235,0.85); }
+    #ndrf{ background:rgba(30,64,175,0.85); }
+    #resources{ background:rgba(59,130,246,0.85); }
+    #news{ background:rgba(29,78,216,0.85); }
+    #login{ background:rgba(37,99,235,0.85); }
+    #contact{ background:rgba(30,58,138,0.85); }
+
+    
+    .chatbot-btn {
+      position: fixed; bottom: 20px; right: 20px;
+      background: #0a1a3f; color: #fff; border: none;
+      border-radius: 50%; width: 60px; height: 60px;
+      font-size: 26px; cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    .chatbot-btn:hover { background: #142f6b; }
+    .chat-container {
+      position: fixed; bottom: 90px; right: 20px;
+      width: 350px; max-height: 500px;
+      background: #fff; color: #000;
+      border-radius: 12px; display: none;
+      flex-direction: column; overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    .chat-header { background: #0a1a3f; color:#fff; padding:12px; text-align:center; font-size:16px; font-weight:bold; }
+    .chat-messages { flex:1; padding:10px; overflow-y:auto; font-size:14px; }
+    .message { margin:6px 0; padding:8px 10px; border-radius:8px; max-width:80%; clear:both; line-height:1.4em; white-space:pre-line; }
+    .bot { background:#e6f0ff; float:left; }
+    .user { background:#0a1a3f; color:#fff; float:right; }
+    .chat-input { display:flex; border-top:1px solid #ccc; }
+    .chat-input input { flex:1; padding:10px; border:none; outline:none; font-size:14px; }
+    .chat-input button { background:#0a1a3f; color:#fff; border:none; padding:0 15px; cursor:pointer; font-size:14px; }
+    .chat-input button:hover { background:#142f6b; }
+
+    @media (max-width:768px) {
+      header { flex-direction:column; font-size:1.6rem; text-align:center; }
+      header img { height:80px; margin:0 0 15px 0; }
+      nav { flex-direction:column; padding:10px; }
+      nav a { margin:8px 0; font-size:1.1rem; }
+      .logo { width:140px; height:140px; font-size:22px; }
+      section h2 { font-size:1.8rem; }
+      section p { font-size:1rem; padding:0 10px; }
+      .chat-container { width:90%; right:5%; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===== Topbar ===== -->
+  <div class="topbar">
+    <div class="container">
+      <b>Government of India • National Disaster Management</b>
+      <span class="badge">24×7 Control Room: 1078</span>
+      <span class="badge" style="background:#dcfce7;color:#065f46">Emergency: 112</span>
+    </div>
+  </div>
+
+  <!-- ===== Header ===== -->
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <img src="https://dummyimage.com/96x96/0ea5bf/ffffff.png&text=DM" alt="Logo" />
+        <div>
+          <div class="title">JEEVAN-SETU</div>
+          <div class="sub">Early warning • Preparedness • Response</div>
+        </div>
+      </div>
+      <nav class="links">
+        <a href="#alerts">Alerts</a>
+        <a href="#resources">Resources</a>
+        <a href="#report">Report</a>
+        <a href="#volunteer">Volunteer</a>
+      </nav>
+
+      <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#features">Features</a>
+    <a href="#ndrf">NDRF</a>
+    <a href="#resources">Resources</a>
+    <a href="#news">News</a>
+    <a href="#login">Login</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div>
+        <p class="pill">All-India Multi-Hazard Platform</p>
+        <h1>Know risks early. Act fast. Stay safe.</h1>
+        <p>Realtime alerts for cyclone, flood, heatwave, earthquake and more. Find shelter, helplines, and verified advisories for your district.</p>
+
+        <form class="searchbar">
+          <input type="search" placeholder="Search your district, state or hazard" />
+          <button type="button">Search</button>
+        </form>
+
+        <div class="hero-card" style="margin-top:16px">
+          <h3>National Status (demo)</h3>
+          <div class="stat"><span class="badge" style="background:#ffe4e6;color:#9f1239">Severe</span> Cyclone watch for east coast</div>
+          <div class="stat"><span class="badge" style="background:#fff7ed;color:#9a3412">Alert</span> Heatwave in NW &amp; Central India</div>
+          <div class="stat"><span class="badge" style="background:#ecfeff;color:#083344">Advisory</span> Urban flood risk in metros</div>
+        </div>
+      </div>
+
+      <!-- ===== District Quick Check with Weather Widget ===== -->
+      <div>
+        <div class="card">
+          <h3>District Quick Check</h3>
+          <form id="location-form">
+            <p style="color:var(--ink-2);margin-top:0">Enter District / City to view active alerts & weather updates</p>
+            <div class="list">
+              <input type="text" id="district" placeholder="Enter District / City" />
+              <button type="submit">Submit</button>
+            </div>
+          </form>
+          <div id="weather-result"></div>
+          <div id="alert-box"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Alerts ticker ===== -->
+  <section class="ticker-wrap">
+    <div class="container ticker">
+      <div class="ticker__track">
+        <span class="ticker__item"><span class="dot"></span> IMD: Cyclone watch for Bay of Bengal (demo)</span>
+        <span class="ticker__item"><span class="dot"></span> CWC: River levels rising in Assam (demo)</span>
+        <span class="ticker__item"><span class="dot"></span> Heatwave advisory for Delhi NCR (demo)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Main content ===== -->
+  <main class="container">
+    <section class="actions">
+      <a class="action" id="report" href="#"><span class="kicker">Report</span>
+        <h3>Report an Incident</h3>
+        <p class="muted">Flooding, landslide, building collapse or other emergencies.</p>
+      </a>
+      <a class="action" id="alerts" href="#"><span class="kicker">Alerts</span>
+        <h3>Check Active Warnings</h3>
+        <p class="muted">IMD, CWC, INCOIS and state updates consolidated for you.</p>
+      </a>
+      <a class="action" id="resources" href="#"><span class="kicker">Guidelines</span>
+        <h3>Preparedness & SOPs</h3>
+        <p class="muted">Before, During & After: Cyclone, Flood, Heatwave, Earthquake.</p>
+      </a>
+      <a class="action" id="volunteer" href="#"><span class="kicker">Volunteer</span>
+        <h3>Join Relief Efforts</h3>
+        <p class="muted">Register as volunteer / NGO and coordinate with district admin.</p>
+      </a>
+    </section>
+  </main>
+
+  <section id="home">
+    <div class="logo">JeevanSetu</div>
+    <p class="tagline">Disaster Preparedness and Response for Schools and Colleges</p>
+    <div class="icons"><span>🌍</span><span>🔥</span><span>🌊</span><span>🩹</span><span>⚡</span></div>
+  </section>
+  <section id="about"><h2>About JeevanSetu</h2><p>JeevanSetu is an initiative...</p></section>
+  <section id="features"><h2>Features</h2><p>✔️ Interactive training... </p></section>
+  <section id="ndrf"><h2>NDRF</h2><p>NDRF plays a crucial role...</p></section>
+  <section id="resources"><h2>Resources</h2><p>Download PDFs, posters, videos...</p></section>
+  <section id="news"><h2>Latest News</h2><p>Stay updated with advisories...</p></section>
+  <section id="login"><h2>Login Portal</h2><p><input type="text" placeholder="Username"><br><br><input type="password" placeholder="Password"><br><br><button>Login</button></p></section>
+  <section id="contact"><h2>Contact Us</h2><p>📍 Address<br>📞 +91-123-456-7890<br>📧 info@jeevansetu.gov.in</p></section>
+
+  
+  <button class="chatbot-btn" onclick="toggleChat()">💬</button>
+  <div class="chat-container" id="chatContainer">
+    <div class="chat-header">JeevanSetu Chatbot</div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Type your message...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- ===== Scripts ===== -->
+  <script>
+    // ✅ Replace with your WeatherAPI key
+    const weatherApiKey = "ec59d035b50e478495d111430250709";
+
+    const form = document.getElementById("location-form");
+    const districtInput = document.getElementById("district");
+    const weatherResult = document.getElementById("weather-result");
+    const alertBox = document.getElementById("alert-box");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const district = districtInput.value.trim();
+      if (district) fetchWeather(district);
+    });
+
+    // ===== Weather =====
+    function fetchWeather(city) {
+      weatherResult.innerHTML = "⏳ Loading weather...";
+      fetch(`https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${city}&days=3`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            weatherResult.innerHTML = `<p style="color:red;">❌ ${data.error.message}</p>`;
+            return;
+          }
+
+          const { name, region, country } = data.location;
+          const { temp_c, condition, humidity, wind_kph } = data.current;
+
+          weatherResult.innerHTML = `
+            <div class="weather-card">
+              <h4>📍 ${name}, ${region}, ${country}</h4>
+              <p><b>🌡️ Temp:</b> ${temp_c} °C</p>
+              <p><b>☁️ Condition:</b> ${condition.text}</p>
+              <p><b>💧 Humidity:</b> ${humidity}%</p>
+              <p><b>🌬️ Wind:</b> ${wind_kph} kph</p>
+            </div>
+          `;
+
+          // After weather → fetch earthquake alerts
+          fetchEarthquakes(data.location.lat, data.location.lon);
+        })
+        .catch(() => {
+          weatherResult.innerHTML = `<p style="color:red;">⚠️ Error fetching weather</p>`;
+        });
+    }
+
+    // ===== Earthquake Alerts =====
+    function fetchEarthquakes(lat, lon) {
+      alertBox.innerHTML = "⏳ Checking earthquake alerts...";
+      const url = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=${lat}&longitude=${lon}&maxradiuskm=500&minmagnitude=4.5&starttime=${getYesterdayDate()}`;
+
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          if (data.features.length > 0) {
+            const alerts = data.features.map(eq => `
+              <div style="background:#d62828; color:white; padding:10px; border-radius:8px; margin:10px 0;">
+                ⚠️ Earthquake Alert: M${eq.properties.mag} - ${eq.properties.place}
+                <br><small>${new Date(eq.properties.time).toLocaleString()}</small>
+              </div>
+            `).join("");
+            alertBox.innerHTML = alerts;
+          } else {
+            alertBox.innerHTML = `<p style="color:green;">✅ No recent earthquakes near this area</p>`;
+          }
+        })
+        .catch(() => {
+          alertBox.innerHTML = `<p style="color:orange;">⚠️ Could not fetch earthquake data</p>`;
+        });
+    }
+
+    function getYesterdayDate() {
+      const d = new Date();
+      d.setDate(d.getDate() - 1);
+      return d.toISOString().split("T")[0];
+    }
+
+    const apiKey = "50050ae77cfe47adaf1165501250909";
+    let step = 0; let userCity = ""; let disasterType = "";
+
+    const chatContainer = document.getElementById("chatContainer");
+    const chatMessages = document.getElementById("chatMessages");
+    const userInput = document.getElementById("userInput");
+
+    function toggleChat() {
+      chatContainer.style.display = (chatContainer.style.display === "flex") ? "none" : "flex";
+      if (step === 0 && chatMessages.innerHTML === "") {
+        addMessage("bot", "Hello! I am JeevanSetu 🌐. Where in India are you currently located?");
+      }
+    }
+    function addMessage(sender, text) {
+      const msg = document.createElement("div");
+      msg.classList.add("message", sender);
+      msg.innerText = text;
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    function sendMessage() {
+      const text = userInput.value.trim();
+      if (!text) return;
+      addMessage("user", text);
+      userInput.value = "";
+      if (step === 0) {
+        userCity = text; addMessage("bot", `Fetching weather details for ${userCity}...`); fetchWeather(userCity);
+      } else if (step === 1) {
+        disasterType = text.toLowerCase(); provideDisasterGuidelines(disasterType);
+      }
+    }
+    async function fetchWeather(city) {
+      try {
+        const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`;
+        const res = await fetch(url); const data = await res.json();
+        if (data.error) { addMessage("bot","I couldn't find that city. Please try another in India."); return; }
+        addMessage("bot", `🌦 Weather in ${city}: ${data.current.condition.text}, ${data.current.temp_c}°C.`);
+        addMessage("bot", "Now, what type of natural disaster are you facing? (Flood, Earthquake, Cyclone, Heatwave, Landslide, etc.)");
+        step = 1;
+      } catch (e) { addMessage("bot", "⚠️ Weather service unavailable."); }
+    }
+    function provideDisasterGuidelines(type) {
+      let advice = "";
+      if (type==="flood") advice="🌊 Flood Safety: ..."; 
+      else if (type==="earthquake") advice="🌍 Earthquake Safety: ...";
+      else if (type==="cyclone") advice="🌀 Cyclone Safety: ...";
+      else if (type==="heatwave") advice="☀️ Heatwave Safety: ...";
+      else if (type==="landslide") advice="⛰ Landslide Safety: ...";
+      else advice="⚠️ Please follow official NDMA advisories.";
+      addMessage("bot", advice);
+      addMessage("bot", "🚨 Emergency Numbers:\n📞 Police/Fire/Ambulance: 112\n📞 NDMA Helpline: 1078\n📞 NDRF: +91-9711077372");
+      step=2;
+    }
+  </script>
+</body>
+
+
+
+
+
+  
+ 
+
+  
+  
+
+  
+</html>

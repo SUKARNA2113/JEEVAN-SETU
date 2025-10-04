@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Safety Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: rgba(0, 77, 64, 0.95);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #fff, #4fc3f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+            gap: 1rem;
+        }
+
+        .nav-links li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links li a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-links li a:hover::before {
+            left: 100%;
+        }
+
+        .nav-links li a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .main-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #004d40;
+            border-bottom: 3px solid #004d40;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #4fc3f7, #29b6f6);
+        }
+
+        /* Enhanced Map Section */
+        #map {
+            height: 600px;
+            background: linear-gradient(45deg, #e0f2f1, #b2dfdb);
+            border: 2px solid #004d40;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #map::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23004d40" stroke-width="0.5" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .map-content {
+            text-align: center;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-markers {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .marker {
+            background: #d32f2f;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 10px rgba(211, 47, 47, 0.3);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .map-note {
+            font-style: italic;
+            color: #666;
+            text-align: center;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(0, 77, 64, 0.1);
+            border-radius: 10px;
+        }
+
+        /* Enhanced SOS Section */
+        .sos-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 2rem;
+            background: linear-gradient(45deg, #d32f2f, #f44336);
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(211, 47, 47, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sos-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .sos-button:hover::before {
+            left: 100%;
+        }
+
+        .sos-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(211, 47, 47, 0.6);
+        }
+
+        .sos-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.4);
+        }
+
+        .pulse-icon {
+            width: 25px;
+            height: 25px;
+            background-color: #fff;
+            border-radius: 50%;
+            margin-right: 15px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.7; }
+        }
+
+        #sos-status {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-weight: bold;
+            padding: 1rem;
+            border-radius: 10px;
+            min-height: 50px;
+        }
+
+        /* Enhanced Quiz Section */
+        #quiz-container {
+            padding: 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        .question {
+            margin-bottom: 2rem;
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-left: 5px solid transparent;
+        }
+
+        .question:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .question p {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-top: 0;
+            color: #004d40;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 0.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .options label:hover {
+            background-color: rgba(0, 77, 64, 0.1);
+        }
+
+        .options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        #submit-quiz {
+            display: block;
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(45deg, #00796b, #004d40);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #submit-quiz:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 121, 107, 0.4);
+        }
+
+        #results {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #004d40;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+        }
+
+        .correct {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9) !important;
+            border-left-color: #4caf50 !important;
+            animation: correctAnswer 0.5s ease-in-out;
+        }
+
+        .incorrect {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2) !important;
+            border-left-color: #f44336 !important;
+            animation: incorrectAnswer 0.5s ease-in-out;
+        }
+
+        @keyframes correctAnswer {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrectAnswer {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* Enhanced Mini-Game Styling */
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 0;
+        }
+
+        .sort-area {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            min-height: 180px;
+            border: 3px dashed #004d40;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            width: 100%;
+            background: linear-gradient(135deg, #f0f4f7, #e1f5fe);
+            position: relative;
+        }
+
+        .sort-area::before {
+            content: 'Drag items from here to sort them!';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #666;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        .sort-area h4 {
+            color: #004d40;
+            text-align: center;
+            width: 100%;
+            margin-top: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .draggable-item {
+            background: linear-gradient(135deg, #e0f2f1, #b2dfdb);
+            border: 2px solid #004d40;
+            padding: 12px 18px;
+            border-radius: 25px;
+            cursor: grab;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 77, 64, 0.2);
+            user-select: none;
+        }
+
+        .draggable-item:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 77, 64, 0.3);
+        }
+
+        .draggable-item:active {
+            cursor: grabbing;
+            transform: rotate(5deg);
+        }
+
+        .drop-zones {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            gap: 20px;
+        }
+
+        .drop-zone {
+            flex: 1;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: 3px solid #ddd;
+            border-radius: 15px;
+            padding: 2rem 1rem;
+            text-align: center;
+            min-height: 200px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .drop-zone i {
+            font-size: 3rem;
+            color: #004d40;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone h4 {
+            color: #004d40;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .drop-zone.dragover {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-color: #4caf50;
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+        }
+
+        .drop-zone.dragover i {
+            transform: scale(1.1);
+            color: #4caf50;
+        }
+
+        .correct-drop {
+            background: linear-gradient(135deg, #c8e6c9, #a5d6a7) !important;
+            border-color: #4caf50 !important;
+            animation: correctDrop 0.6s ease-in-out;
+        }
+
+        .incorrect-drop {
+            background: linear-gradient(135deg, #ffcdd2, #ef9a9a) !important;
+            border-color: #f44336 !important;
+            animation: shake 0.6s ease-in-out;
+        }
+
+        @keyframes correctDrop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        #game-feedback {
+            margin-top: 2rem;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            min-height: 40px;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        /* Enhanced Gamification Section */
+        .profile-card {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-item {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #004d40;
+            text-align: center;
+        }
+
+        .icon-large {
+            font-size: 4rem;
+            color: #ff9800;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .badge-item {
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+            padding: 2rem 1rem;
+            border-radius: 20px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .badge-item:hover::before {
+            left: 100%;
+        }
+
+        .badge-item.unlocked {
+            background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+            animation: unlockBadge 0.8s ease-out;
+            transform: scale(1);
+        }
+
+        .badge-item.unlocked .badge-icon {
+            color: #4caf50;
+            animation: rotate3D 1s ease-out;
+        }
+
+        .badge-item.locked {
+            filter: grayscale(100%);
+            opacity: 0.6;
+        }
+
+        .badge-item.locked:hover {
+            filter: grayscale(50%);
+            opacity: 0.8;
+            transform: translateY(-5px);
+        }
+
+        .badge-icon {
+            font-size: 4rem;
+            color: #757575;
+            margin-bottom: 1rem;
+            transition: all 0.4s ease;
+        }
+
+        .badge-item p {
+            font-weight: bold;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+
+        @keyframes unlockBadge {
+            0% { 
+                transform: scale(0.8) rotateY(-90deg); 
+                opacity: 0; 
+            }
+            50% { 
+                transform: scale(1.1) rotateY(0deg); 
+            }
+            100% { 
+                transform: scale(1) rotateY(0deg); 
+                opacity: 1; 
+            }
+        }
+
+        @keyframes rotate3D {
+            0% { transform: rotateY(0deg) rotateX(0deg); }
+            50% { transform: rotateY(180deg) rotateX(180deg); }
+            100% { transform: rotateY(360deg) rotateX(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .main-section {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .drop-zones {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .profile-card {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .badges-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Notification System */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">🛡️ Campus Safety Hub</div>
+            <ul class="nav-links">
+                <li><a href="#map-section">📍 Evacuation Map</a></li>
+                <li><a href="#sos-section">🚨 SOS</a></li>
+                <li><a href="#quiz-section">📝 Safety Quiz</a></li>
+                <li><a href="#mini-game-section">🎮 Mini-Game</a></li>
+                <li><a href="#gamification-section">🏆 Achievements</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="map-section" class="main-section">
+            <h2><i class="fas fa-map-marked-alt"></i> Digital Evacuation Plan</h2>
+            <div id="map">
+                <div class="map-content">
+                    <h3>🏢 JSS College, Noida Campus</h3>
+                    <p>Interactive evacuation route visualization</p>
+                    <div class="map-markers">
+                        <div class="marker">🚑 First Aid Station</div>
+                        <div class="marker">🏃 Assembly Point</div>
+                        <div class="marker">🚪 Emergency Exit</div>
+                        <div class="marker">📞 Emergency Phone</div>
+                    </div>
+                </div>
+            </div>
+            <p class="map-note">
+                <i class="fas fa-info-circle"></i> Click anywhere on the map to unlock the "Map Explorer" achievement!
+                This interactive map shows key safety locations across the JSS College campus.
+            </p>
+        </section>
+
+        <section id="sos-section" class="main-section">
+            <h2><i class="fas fa-exclamation-triangle"></i> Emergency Helpline</h2>
+            <p>In case of an on-campus emergency, click the button below to send an immediate alert with your live location to campus security and administration.</p>
+            <button id="sos-btn" class="sos-button">
+                <span class="pulse-icon"></span>
+                <i class="fas fa-bell"></i> SOS - Send Emergency Alert
+            </button>
+            <div id="sos-status"></div>
+        </section>
+
+        <section id="quiz-section" class="main-section">
+            <h2><i class="fas fa-question-circle"></i> Disaster Awareness Quiz</h2>
+            <p>Test your knowledge of disaster preparedness and safety procedures. Earn points for every correct answer!</p>
+            <div id="quiz-container">
+                <div id="quiz"></div>
+                <button id="submit-quiz">📊 Submit Quiz</button>
+                <div id="results"></div>
+            </div>
+        </section>
+
+        <section id="mini-game-section" class="main-section">
+            <h2><i class="fas fa-gamepad"></i> The Supply Sort Game</h2>
+            <p>Drag and drop the emergency supplies into the correct category to earn points and practice your preparedness knowledge.</p>
+            <div class="game-container">
+                <div id="items-to-sort" class="sort-area">
+                    <h4>🎒 Emergency Supplies</h4>
+                </div>
+                <div class="drop-zones">
+                    <div id="zone-first-aid" class="drop-zone" data-category="First Aid">
+                        <i class="fas fa-first-aid"></i>
+                        <h4>First Aid</h4>
+                        <p>Medical supplies</p>
+                    </div>
+                    <div id="zone-food-water" class="drop-zone" data-category="Food & Water">
+                        <i class="fas fa-utensils"></i>
+                        <h4>Food & Water</h4>
+                        <p>Sustenance items</p>
+                    </div>
+                    <div id="zone-tools" class="drop-zone" data-category="Tools & Light">
+                        <i class="fas fa-toolbox"></i>
+                        <h4>Tools & Light</h4>
+                        <p>Utility items</p>
+                    </div>
+                </div>
+            </div>
+            <div id="game-feedback"></div>
+        </section>
+
+        <section id="gamification-section" class="main-section">
+            <h2><i class="fas fa-trophy"></i> Your Achievements</h2>
+            <div class="profile-card">
+                <div class="profile-item">
+                    <i class="fas fa-medal icon-large"></i>
+                    <p>Total Points: <span id="user-points">0</span></p>
+                </div>
+                <div class="profile-item">
+                    <i class="fas fa-certificate icon-large"></i>
+                    <p>Badges Unlocked: <span id="user-badges-count">0</span>/5</p>
+                </div>
+            </div>
+            <h3><i class="fas fa-award"></i> Achievement Badges</h3>
+            <div id="badges-container" class="badges-grid">
+                <div id="safetyNovice" class="badge-item locked">
+                    <i class="fas fa-user-graduate badge-icon"></i>
+                    <p>Safety Novice</p>
+                    <small>Score 50% or better on the quiz</small>
+                </div>
+                <div id="mapExplorer" class="badge-item locked">
+                    <i class="fas fa-map-marked-alt badge-icon"></i>
+                    <p>Map Explorer</p>
+                    <small>Interact with the evacuation map</small>
+                </div>
+                <div id="firstResponder" class="badge-item locked">
+                    <i class="fas fa-fist-raised badge-icon"></i>
+                    <p>First Responder</p>
+                    <small>Use the emergency SOS feature</small>
+                </div>
+                <div id="quizMaster" class="badge-item locked">
+                    <i class="fas fa-brain badge-icon"></i>
+                    <p>Quiz Master</p>
+                    <small>Score 75% or better on the quiz</small>
+                </div>
+                <div id="supplySorter" class="badge-item locked">
+                    <i class="fas fa-parachute-box badge-icon"></i>
+                    <p>Supply Sorter</p>
+                    <small>Complete the supply sorting game</small>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // User Profile Management (using in-memory storage)
+        let userProfile = {
+            totalPoints: 0,
+            badges: {
+                safetyNovice: false,
+                mapExplorer: false,
+                firstResponder: false,
+                quizMaster: false,
+                supplySorter: false
+            }
+        };
+
+        // DOM Elements
+        const userPointsEl = document.getElementById('user-points');
+        const userBadgesCountEl = document.getElementById('user-badges-count');
+        const badgesContainer = document.getElementById('badges-container');
+
+        // Notification System
+        function showNotification(message, isError = false) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${isError ? 'error' : ''}`;
+            notification.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i> ${message}`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideInRight 0.5s ease-out reverse';
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
+        }
+
+        function saveProfile() {
+            renderProfile();
+        }
+
+        function renderProfile() {
+            userPointsEl.textContent = userProfile.totalPoints;
+            const unlockedBadgesCount = Object.values(userProfile.badges).filter(Boolean).length;
+            userBadgesCountEl.textContent = unlockedBadgesCount;
+
+            const badgeElements = badgesContainer.querySelectorAll('.badge-item');
+            badgeElements.forEach(item => {
+                const badgeId = item.id;
+                if (userProfile.badges[badgeId]) {
+                    item.classList.remove('locked');
+                    item.classList.add('unlocked');
+                } else {
+                    item.classList.remove('unlocked');
+                    item.classList.add('locked');
+                }
+            });
+        }
+
+        function unlockBadge(badgeId, badgeName) {
+            if (!userProfile.badges[badgeId]) {
+                userProfile.badges[badgeId] = true;
+                showNotification(`🎉 Achievement Unlocked: ${badgeName}!`);
+                saveProfile();
+                return true;
+            }
+            return false;
+        }
+
+        // Map Section Logic
+        document.getElementById('map').addEventListener('click', () => {
+            unlockBadge('mapExplorer', 'Map Explorer');
+        });
+
+        // Emergency SOS Logic
+        const sosButton = document.getElementById('sos-btn');
+        const sosStatus = document.getElementById('sos-status');
+
+        sosButton.addEventListener('click', () => {
+            sosStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending alert...';
+            sosStatus.style.color = '#d32f2f';
+            sosStatus.style.background = 'rgba(211, 47, 47, 0.1)';
+            sosStatus.style.padding = '1rem';
+            sosStatus.style.borderRadius = '10px';
+
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        const timestamp = new Date().toLocaleString();
+                        const accuracy = position.coords.accuracy;
+
+                        sosStatus.innerHTML = `
+                            <i class="fas fa-check-circle"></i> <strong>Alert Sent Successfully!</strong><br>
+                            <i class="fas fa-map-marker-alt"></i> Location: ${lat.toFixed(6)}, ${lon.toFixed(6)}<br>
+                            <i class="fas fa-crosshairs"></i> Accuracy: ±${Math.round(accuracy)}m<br>
+                            <i class="fas fa-clock"></i> Time: ${timestamp}<br>
+                            <i class="fas fa-shield-alt"></i> Campus security has been notified and is en route.
+                        `;
+                        sosStatus.style.color = '#4caf50';
+                        sosStatus.style.background = 'rgba(76, 175, 80, 0.1)';
+
+                        unlockBadge('firstResponder', 'First Responder');
+                        userProfile.totalPoints += 50;
+                        saveProfile();
+                        showNotification('Emergency alert sent! +50 points');
+                    },
+                    (error) => {
+                        let errorMessage = 'Could not retrieve location. ';
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                errorMessage += 'Please enable location services.';
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                errorMessage += 'Location information unavailable.';
+                                break;
+                            case error.TIMEOUT:
+                                errorMessage += 'Location request timed out.';
+                                break;
+                            default:
+                                errorMessage += 'An unknown error occurred.';
+                        }
+                        
+                        sosStatus.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${errorMessage}`;
+                        sosStatus.style.color = '#d32f2f';
+                        sosStatus.style.background = 'rgba(211, 47, 47, 0.1)';
+                        showNotification(errorMessage, true);
+                    }
+                );
+            } else {
+                sosStatus.innerHTML = '<i class="fas fa-times-circle"></i> Geolocation is not supported by your browser.';
+                sosStatus.style.color = '#d32f2f';
+                sosStatus.style.background = 'rgba(211, 47, 47, 0.1)';
+                showNotification('Geolocation not supported', true);
+            }
+        });
+
+        // Quiz Data and Logic
+        const quizData = [
+            { question: "What is the recommended duration for an emergency food supply?", options: ["24 hours", "3 days", "1 week", "2 weeks"], answer: "3 days" },
+            { question: "During an earthquake, what is the 'Drop, Cover, and Hold On' procedure designed for?", options: ["Preventing falls", "Protecting against falling objects", "Signaling for help", "Staying calm"], answer: "Protecting against falling objects" },
+            { question: "What should you NOT do if you are caught in a flash flood?", options: ["Move to higher ground", "Stay in your car", "Swim to safety", "Climb a tree"], answer: "Stay in your car" },
+            { question: "What is the purpose of a fire blanket?", options: ["To start a fire", "To smother a small fire", "To keep warm", "To create a signal"], answer: "To smother a small fire" },
+            { question: "If you are lost in the wilderness, what is the international signal for distress?", options: ["Making a large 'X' on the ground", "Using a flashlight to make a circle", "Shouting 'help' loudly", "Waving your arms over your head"], answer: "Making a large 'X' on the ground" },
+            { question: "What is the first step in basic first aid for a bleeding wound?", options: ["Applying a tourniquet", "Washing the wound with soap", "Applying direct pressure with a clean cloth", "Putting ice on it"], answer: "Applying direct pressure with a clean cloth" },
+            { question: "Which of the following items is NOT essential for a basic emergency kit?", options: ["A can opener", "A deck of cards", "A flashlight with extra batteries", "Bottled water"], answer: "A deck of cards" },
+            { question: "In a 'shelter-in-place' situation due to a chemical hazard, what should you do?", options: ["Evacuate the building immediately", "Go to the highest floor", "Seal windows and doors with plastic sheeting", "Turn on the ventilation system"], answer: "Seal windows and doors with plastic sheeting" },
+            { question: "What is a major danger of using a candle during a power outage?", options: ["The wick burns too fast", "It can cause a fire", "It attracts insects", "It does not provide enough light"], answer: "It can cause a fire" },
+            { question: "What should you do immediately after a tornado passes?", options: ["Go outside to assess the damage", "Turn on gas and electricity to check them", "Check for injured people and fire hazards", "Start rebuilding your home"], answer: "Check for injured people and fire hazards" }
+        ];
+
+        const quizDiv = document.getElementById('quiz');
+        const submitQuizButton = document.getElementById('submit-quiz');
+        const resultsDiv = document.getElementById('results');
+        let quizTaken = false;
+
+        function buildQuiz() {
+            // Select 5 random questions for variety
+            const selectedQuestions = quizData.sort(() => Math.random() - 0.5).slice(0, 5);
+            
+            const output = selectedQuestions.map((currentQuestion, questionNumber) => {
+                const options = currentQuestion.options.map(option => `
+                    <label>
+                        <input type="radio" name="question${questionNumber}" value="${option}">
+                        <span>${option}</span>
+                    </label>
+                `).join('');
+
+                return `
+                    <div class="question">
+                        <p><i class="fas fa-question-circle"></i> ${questionNumber + 1}. ${currentQuestion.question}</p>
+                        <div class="options">${options}</div>
+                    </div>
+                `;
+            }).join('');
+
+            quizDiv.innerHTML = output;
+            quizDiv.dataset.questions = JSON.stringify(selectedQuestions);
+        }
+
+        function showResults() {
+            if (quizTaken) {
+                showNotification('You have already taken this quiz! Refresh to try again.', true);
+                return;
+            }
+
+            const selectedQuestions = JSON.parse(quizDiv.dataset.questions);
+            const answerContainers = quizDiv.querySelectorAll('.options');
+            let numCorrect = 0;
+            let totalQuestions = selectedQuestions.length;
+
+            selectedQuestions.forEach((currentQuestion, questionNumber) => {
+                const answerContainer = answerContainers[questionNumber];
+                const selector = `input[name=question${questionNumber}]:checked`;
+                const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+                const questionElement = answerContainer.parentNode;
+
+                if (userAnswer === currentQuestion.answer) {
+                    numCorrect++;
+                    questionElement.classList.remove('incorrect');
+                    questionElement.classList.add('correct');
+                } else {
+                    questionElement.classList.remove('correct');
+                    questionElement.classList.add('incorrect');
+                }
+            });
+            
+            const percentage = Math.round((numCorrect / totalQuestions) * 100);
+            const score = numCorrect * 20; // 20 points per correct answer
+            userProfile.totalPoints += score;
+            
+            let message = `
+                <i class="fas fa-chart-bar"></i> Quiz Complete!<br>
+                Score: ${numCorrect}/${totalQuestions} (${percentage}%)<br>
+                Points Earned: +${score}
+            `;
+
+            let badgeUnlocked = false;
+            if (percentage >= 75 && unlockBadge('quizMaster', 'Quiz Master')) {
+                message += "<br><i class='fas fa-crown'></i> Quiz Master badge unlocked!";
+                badgeUnlocked = true;
+            } else if (percentage >= 50 && unlockBadge('safetyNovice', 'Safety Novice')) {
+                message += "<br><i class='fas fa-graduation-cap'></i> Safety Novice badge unlocked!";
+                badgeUnlocked = true;
+            }
+
+            resultsDiv.innerHTML = message;
+            saveProfile();
+            quizTaken = true;
+            submitQuizButton.textContent = '✅ Quiz Completed';
+            submitQuizButton.disabled = true;
+            
+            if (badgeUnlocked) {
+                showNotification(`Great job! You earned ${score} points and unlocked a new badge!`);
+            } else {
+                showNotification(`Quiz completed! You earned ${score} points.`);
+            }
+        }
+
+        // Supply Sort Mini-Game Logic
+        const supplies = [
+            { name: "🩹 Bandages", category: "First Aid" },
+            { name: "💊 Pain Relief", category: "First Aid" },
+            { name: "🧼 Antiseptic Wipes", category: "First Aid" },
+            { name: "💧 Bottled Water", category: "Food & Water" },
+            { name: "🥫 Canned Food", category: "Food & Water" },
+            { name: "🍫 Energy Bars", category: "Food & Water" },
+            { name: "🔦 Flashlight", category: "Tools & Light" },
+            { name: "📱 Emergency Radio", category: "Tools & Light" },
+            { name: "🔧 Multi-tool", category: "Tools & Light" },
+            { name: "🕯️ Candles", category: "Tools & Light" },
+            { name: "🚨 Whistle", category: "Tools & Light" },
+            { name: "🧻 Gauze Pads", category: "First Aid" }
+        ];
+
+        const itemsContainer = document.getElementById('items-to-sort');
+        const dropZones = document.querySelectorAll('.drop-zone');
+        const gameFeedback = document.getElementById('game-feedback');
+        let sortedCount = 0;
+        let gameStarted = false;
+
+        function renderSupplies() {
+            itemsContainer.innerHTML = '<h4>🎒 Emergency Supplies</h4>';
+            // Shuffle supplies for variety
+            const shuffledSupplies = supplies.sort(() => Math.random() - 0.5);
+            
+            shuffledSupplies.forEach(supply => {
+                const item = document.createElement('div');
+                item.classList.add('draggable-item');
+                item.textContent = supply.name;
+                item.draggable = true;
+                item.dataset.category = supply.category;
+                itemsContainer.appendChild(item);
+            });
+            
+            sortedCount = 0;
+            gameStarted = true;
+            gameFeedback.textContent = 'Drag items to their correct categories to earn points!';
+            gameFeedback.style.color = '#004d40';
+            gameFeedback.style.background = 'rgba(0, 77, 64, 0.1)';
+        }
+
+        function addDragDropListeners() {
+            document.addEventListener('dragstart', (e) => {
+                if (e.target.classList.contains('draggable-item')) {
+                    e.dataTransfer.setData('text/plain', e.target.textContent);
+                    e.dataTransfer.setData('data-category', e.target.dataset.category);
+                    e.target.style.opacity = '0.5';
+                }
+            });
+
+            document.addEventListener('dragend', (e) => {
+                if (e.target.classList.contains('draggable-item')) {
+                    e.target.style.opacity = '1';
+                }
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    zone.classList.add('dragover');
+                });
+
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('dragover');
+                });
+
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('dragover');
+
+                    const draggedCategory = e.dataTransfer.getData('data-category');
+                    const draggedItemText = e.dataTransfer.getData('text/plain');
+                    const targetCategory = zone.dataset.category;
+                    
+                    // Find the dragged item
+                    const draggedItem = document.querySelector(`[data-category="${draggedCategory}"][draggable="true"]:not(.dropped)`);
+                    
+                    if (!draggedItem) return;
+
+                    if (draggedCategory === targetCategory) {
+                        // Correct placement
+                        zone.appendChild(draggedItem);
+                        draggedItem.removeAttribute('draggable');
+                        draggedItem.classList.add('correct-drop', 'dropped');
+                        draggedItem.style.background = 'linear-gradient(135deg, #c8e6c9, #a5d6a7)';
+                        draggedItem.style.border = '2px solid #4caf50';
+                        
+                        gameFeedback.innerHTML = '<i class="fas fa-check-circle"></i> Correct! +10 points!';
+                        gameFeedback.style.color = '#4caf50';
+                        gameFeedback.style.background = 'rgba(76, 175, 80, 0.1)';
+                        
+                        userProfile.totalPoints += 10;
+                        sortedCount++;
+                        
+                        // Check if game is complete
+                        if (sortedCount === supplies.length) {
+                            setTimeout(() => {
+                                gameFeedback.innerHTML = '<i class="fas fa-trophy"></i> Game Complete! All supplies sorted correctly!';
+                                unlockBadge('supplySorter', 'Supply Sorter');
+                                userProfile.totalPoints += 50; // Bonus for completing
+                                saveProfile();
+                                showNotification('🎉 Supply Sorter badge unlocked! +50 bonus points!');
+                            }, 500);
+                        }
+                    } else {
+                        // Incorrect placement - animate error
+                        draggedItem.style.animation = 'shake 0.6s ease-in-out';
+                        gameFeedback.innerHTML = '<i class="fas fa-times-circle"></i> Incorrect category. Try again!';
+                        gameFeedback.style.color = '#f44336';
+                        gameFeedback.style.background = 'rgba(244, 67, 54, 0.1)';
+                        
+                        setTimeout(() => {
+                            draggedItem.style.animation = '';
+                        }, 600);
+                    }
+
+                    saveProfile();
+                });
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProfile();
+            buildQuiz();
+            renderSupplies();
+            addDragDropListeners();
+            
+            // Add smooth scrolling for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Show welcome message
+            setTimeout(() => {
+                showNotification('Welcome to Campus Safety Hub! Complete activities to earn points and badges.');
+            }, 1000);
+        });
+
+        // Quiz submission
+        submitQuizButton.addEventListener('click', showResults);
+
+        // Add a reset button for the game (hidden feature)
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                if (confirm('Reset your progress? This will clear all points and badges.')) {
+                    userProfile = {
+                        totalPoints: 0,
+                        badges: {
+                            safetyNovice: false,
+                            mapExplorer: false,
+                            firstResponder: false,
+                            quizMaster: false,
+                            supplySorter: false
+                        }
+                    };
+                    quizTaken = false;
+                    submitQuizButton.textContent = '📊 Submit Quiz';
+                    submitQuizButton.disabled = false;
+                    buildQuiz();
+                    renderSupplies();
+                    saveProfile();
+                    showNotification('Progress reset successfully!');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

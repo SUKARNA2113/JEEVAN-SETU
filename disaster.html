@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JEEVAN-SETU College and Schools Emergency Preparedness System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* (The same CSS you provided earlier) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: rgb(51, 51, 223);
+            min-height: 100vh;
+            color: #333
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1)
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .logo i {
+            color: #e74c3c
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: #e74c3c;
+            color: white;
+            transform: translateY(-2px)
+        }
+
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer
+        }
+
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px)
+        }
+
+        .section {
+            display: none;
+            min-height: calc(100vh - 80px);
+            padding: 2rem 0
+        }
+
+        .section.active {
+            display: block
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            color: white
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+            animation: fadeInUp 1s ease-out
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.4s both
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3)
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2)
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1)
+        }
+
+        .content-card h2 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem
+        }
+
+        .stat-card {
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem
+        }
+
+        .feature-card {
+            background: linear-gradient(145deg, #f8f9ff, #e6e8ff);
+            border-radius: 20px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s
+        }
+
+        .feature-card:hover::before {
+            left: 100%
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #667eea;
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2)
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+            color: #e74c3c
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem
+        }
+
+        .module-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 5px solid #e74c3c;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1)
+        }
+
+        .module-card.completed {
+            border-left-color: #27ae60
+        }
+
+        .module-card.in-progress {
+            border-left-color: #f39c12
+        }
+
+        .module-status {
+            margin-top: 1rem;
+            font-weight: 600
+        }
+
+        .drill-simulator {
+            background: linear-gradient(145deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: center
+        }
+
+        .drill-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0
+        }
+
+        .drill-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease
+        }
+
+        .drill-status {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: slideInLeft 0.5s ease
+        }
+
+        .alert.warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            color: #856404
+        }
+
+        .alert.danger {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24
+        }
+
+        .alert.info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            color: #0c5460
+        }
+
+        .alert.success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem
+        }
+
+        .contact-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease
+        }
+
+        .contact-card i {
+            font-size: 2.5rem;
+            color: #e74c3c;
+            margin-bottom: 1rem
+        }
+
+        .contact-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 0.5rem 0
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto
+        }
+
+        .question-counter {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #666
+        }
+
+        .question {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem
+        }
+
+        .options {
+            display: grid;
+            gap: 0.5rem
+        }
+
+        .option {
+            padding: 1rem;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff
+        }
+
+        .option.selected {
+            border-color: #e74c3c;
+            background: #fff5f5
+        }
+
+        .option.correct {
+            border-color: #27ae60;
+            background: #f0fff4
+        }
+
+        .option.incorrect {
+            border-color: #e74c3c;
+            background: #fff5f5
+        }
+
+        .quiz-controls {
+            text-align: center;
+            margin-top: 2rem
+        }
+
+        .quiz-btn {
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease
+        }
+
+        .quiz-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px)
+        }
+
+        .quiz-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none
+        }
+
+        .score-display {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            border-radius: 15px;
+            margin: 2rem 0
+        }
+
+        .leaderboard {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease
+        }
+
+        .rank {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            color: white
+        }
+
+        .rank.gold {
+            background: linear-gradient(45deg, #f1c40f, #f39c12)
+        }
+
+        .rank.silver {
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d)
+        }
+
+        .rank.bronze {
+            background: linear-gradient(45deg, #e67e22, #d35400)
+        }
+
+        .rank.default {
+            background: linear-gradient(45deg, #667eea, #764ba2)
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center
+        }
+
+        .modal.active {
+            display: flex
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: fadeInUp 0.5s ease-out
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background 0.3s ease
+        }
+
+        .close-modal:hover {
+            background: #f0f0f0
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0)
+            }
+        }
+
+        @media(max-width:768px) {
+            .nav-links {
+                display: none
+            }
+
+            .mobile-menu {
+                display: block
+            }
+
+            .hero h1 {
+                font-size: 2.5rem
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr
+            }
+
+            .progress-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem
+            }
+
+            .progress-bar {
+                width: 100%
+            }
+        }
+
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem
+        }
+
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 3000
+        }
+
+        .toast.show {
+            transform: translateX(0)
+        }
+
+        .alert-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap
+        }
+
+        .filter-btn {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem
+        }
+
+        .action-btn {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 1.5rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem
+        }
+
+        .action-btn i {
+            font-size: 2rem
+        }
+
+
+
+        /* Floating Button */
+        .chatbot-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #0a1a3f;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 26px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .chatbot-btn:hover {
+            background: #142f6b;
+        }
+
+        /* Chat Container */
+        .chat-container {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            max-height: 500px;
+            background: #fff;
+            color: #000;
+            border-radius: 12px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .chat-header {
+            background: #0a1a3f;
+            color: #fff;
+            padding: 12px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        .message {
+            margin: 6px 0;
+            padding: 8px 10px;
+            border-radius: 8px;
+            max-width: 80%;
+            clear: both;
+            line-height: 1.4em;
+            white-space: pre-line;
+        }
+
+        .bot {
+            background: #e6f0ff;
+            float: left;
+        }
+
+        .user {
+            background: #0a1a3f;
+            color: #fff;
+            float: right;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #ccc;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .chat-input button {
+            background: #0a1a3f;
+            color: #fff;
+            border: none;
+            padding: 0 15px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .chat-input button:hover {
+            background: #142f6b;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="logo"><i class="fas fa-shield-alt"></i> JEEVAN-SETU</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" data-section="home" class="nav-link active">Home</a></li>
+                <li><a href="#" data-section="dashboard" class="nav-link">Dashboard</a></li>
+                <li><a href="#" data-section="modules" class="nav-link">Learn</a></li>
+                <li><a href="#" data-section="drills" class="nav-link">Drills</a></li>
+                <li><a href="#" data-section="alerts" class="nav-link">Alerts</a></li>
+                <li><a href="#" data-section="contacts" class="nav-link">Contacts</a></li>
+                <li><a href="#" data-section="quiz" class="nav-link">Quiz</a></li>
+            </ul>
+            <button class="mobile-menu" id="mobileBtn"><i class="fas fa-bars"></i></button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Home -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <div class="container">
+                    <h1><i class="fas fa-shield-alt"></i> JEEVAN-SETU</h1>
+                    <p>Comprehensive Disaster Preparedness Education System for Schools and Colleges</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" id="enterDash"><i class="fas fa-tachometer-alt"></i> Enter
+                            Dashboard</button>
+                        <button class="btn btn-secondary" id="quickDrillBtn"><i class="fas fa-play"></i> Quick Emergency
+                            Drill</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="content-card">
+                    <h2><i class="fas fa-info-circle"></i> About JEEVAN-SETU</h2>
+                    <p>JEEVAN-SETUI is comprehensive disaster preparedness education platform designed
+                        specifically for schools and colleges. Our system addresses the critical gap in disaster
+                        management education by providing:</p>
+                    <ul style="margin:1rem 0;padding-left:2rem;">
+                        <li>Interactive learning modules tailored to Delhi's regional disaster risks</li>
+                        <li>Virtual emergency drill simulations for safe practice</li>
+                        <li>Real-time alerts and communication systems</li>
+                        <li>Gamified learning experiences to improve engagement</li>
+                        <li>Comprehensive progress tracking and analytics</li>
+                    </ul>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card" data-section="modules"><i class="feature-icon fas fa-book-open"></i>
+                        <h3>Regional Learning Modules</h3>
+                        <p>Specialized content covering earthquakes, floods, heat waves, and other disasters specific to
+                            Punjab region.</p>
+                    </div>
+                    <div class="feature-card" data-section="drills"><i class="feature-icon fas fa-vr-cardboard"></i>
+                        <h3>Virtual Emergency Drills</h3>
+                        <p>Safe, simulated emergency scenarios for practicing evacuation and response procedures.</p>
+                    </div>
+                    <div class="feature-card" data-section="alerts"><i class="feature-icon fas fa-bell"></i>
+                        <h3>Real-Time Alerts</h3>
+                        <p>Location-based disaster warnings and safety instructions from authorities.</p>
+                    </div>
+                    <div class="feature-card" data-section="quiz"><i class="feature-icon fas fa-gamepad"></i>
+                        <h3>Gamified Learning</h3>
+                        <p>Interactive quizzes, badges, and leaderboards to make learning engaging and fun.</p>
+                    </div>
+                    <div class="feature-card" data-section="contacts"><i class="feature-icon fas fa-phone-alt"></i>
+                        <h3>Emergency Directory</h3>
+                        <p>Quick access to emergency services, school officials, and family contacts during crises.</p>
+                    </div>
+                    <div class="feature-card" data-section="dashboard"><i class="feature-icon fas fa-chart-bar"></i>
+                        <h3>Progress Analytics</h3>
+                        <p>Detailed tracking of learning progress, drill participation, and preparedness scores.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard -->
+        <section id="dashboard" class="section">
+            <div class="container">
+                <div class="content-card">
+                    <h2><i class="fas fa-tachometer-alt"></i> Student Dashboard</h2>
+                    <div id="alertsContainer"></div>
+                    <div class="stats-grid">
+                        <div class="stat-card"><span class="stat-number" id="preparedness-score">0</span><span
+                                class="stat-label">Preparedness Score (%)</span></div>
+                        <div class="stat-card"><span class="stat-number" id="modules-completed">0</span><span
+                                class="stat-label">Modules Completed</span></div>
+                        <div class="stat-card"><span class="stat-number" id="drills-completed">0</span><span
+                                class="stat-label">Virtual Drills</span></div>
+                        <div class="stat-card"><span class="stat-number" id="points-earned">0</span><span
+                                class="stat-label">Points Earned</span></div>
+                    </div>
+
+                    <div class="progress-section">
+                        <h3><i class="fas fa-chart-line"></i> Learning Progress</h3>
+                        <div class="progress-item">
+                            <span><i class="fas fa-home"></i> Earthquake Safety</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="earthquake-fill" style="width:0%"></div>
+                            </div>
+                            <span id="earthquake-percent">0%</span>
+                        </div>
+                        <div class="progress-item">
+                            <span><i class="fas fa-water"></i> Flood Response</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="flood-fill" style="width:0%"></div>
+                            </div>
+                            <span id="flood-percent">0%</span>
+                        </div>
+                        <div class="progress-item">
+                            <span><i class="fas fa-fire"></i> Fire Safety</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="fire-fill" style="width:0%"></div>
+                            </div>
+                            <span id="fire-percent">0%</span>
+                        </div>
+                        <div class="progress-item">
+                            <span><i class="fas fa-thermometer-full"></i> Heat Wave Protocol</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="heat-fill" style="width:0%"></div>
+                            </div>
+                            <span id="heat-percent">0%</span>
+                        </div>
+                    </div>
+
+                    <div class="leaderboard" id="leaderboard">
+                        <h3>Leaderboard</h3>
+                        <div id="leaderboard-list"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modules (Learn) -->
+        <section id="modules" class="section">
+            <div class="container">
+                <div class="content-card">
+                    <h2><i class="fas fa-book-open"></i> Learning Modules</h2>
+                    <p>Complete modules to earn points and increase your preparedness score.</p>
+                    <div class="module-grid" id="modulesGrid"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Drills -->
+        <section id="drills" class="section">
+            <div class="container">
+                <div class="content-card">
+                    <h2><i class="fas fa-vr-cardboard"></i> Virtual Emergency Drills</h2>
+                    <p>Choose a scenario and run a quick simulation to practice response steps.</p>
+                    <div class="quick-actions">
+                        <button class="action-btn" data-scenario="earthquake"><i class="fas fa-home"></i> Earthquake
+                            Drill</button>
+                        <button class="action-btn" data-scenario="flood"><i class="fas fa-water"></i> Flood
+                            Drill</button>
+                        <button class="action-btn" data-scenario="fire"><i class="fas fa-fire"></i> Fire Drill</button>
+                        <button class="action-btn" data-scenario="heat"><i class="fas fa-thermometer-full"></i> Heat
+                            Wave Drill</button>
+                    </div>
+
+                    <div class="drill-simulator">
+                        <h3 id="drill-title">No active drill</h3>
+                        <div class="drill-controls">
+                            <button class="drill-btn" id="startDrill">Start Drill</button>
+                            <button class="drill-btn" id="stopDrill" disabled>Stop Drill</button>
+                            <button class="drill-btn" id="viewChecklist">View Checklist</button>
+                        </div>
+                        <div class="drill-status" id="drillStatus">Select a scenario to begin</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Alerts -->
+        <section id="alerts" class="section">
+            <div class="container">
+                <div class="content-card">
+                    <h2><i class="fas fa-bell"></i> Alerts</h2>
+                    <p>Real-time and historical alerts for your region.</p>
+
+                    <div class="alert-filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="warning">Warnings</button>
+                        <button class="filter-btn" data-filter="danger">Danger</button>
+                        <button class="filter-btn" data-filter="info">Info</button>
+                        <button class="filter-btn" data-filter="success">Success</button>
+                    </div>
+
+                    <div id="alertsList"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contacts -->
+        <section id="contacts" class="section">
+            <div class="container">
+                <div class="content-card">
+                    <h2><i class="fas fa-phone-alt"></i> Emergency Contacts</h2>
+                    <p>Quick access to important contacts.</p>
+                    <div class="contact-grid" id="contactsGrid"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz -->
+        <section id="quiz" class="section">
+            <div class="container">
+                <div class="content-card">
+                    <h2><i class="fas fa-gamepad"></i> Safety Quiz</h2>
+                    <div class="quiz-container">
+                        <div class="question-counter" id="qCounter"></div>
+                        <div class="question" id="questionBox"></div>
+                        <div class="quiz-controls">
+                            <button class="quiz-btn" id="prevQ">Previous</button>
+                            <button class="quiz-btn" id="nextQ">Next</button>
+                            <button class="quiz-btn" id="submitQuiz">Submit</button>
+                        </div>
+                        <div id="quizResult"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">JEEVAN-SETU — Problem Statement ID: 25008 • Government of Punjab, Department of Higher
+            Education</div>
+    </footer>
+
+    <div class="modal" id="modal">
+        <div class="modal-content" id="modalContent"><button class="close-modal" id="closeModal"><i
+                    class="fas fa-times"></i></button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+    <div class="toast" id="toast">Action completed</div>
+
+    <!-- Floating Button -->
+    <button class="chatbot-btn" onclick="toggleChat()">💬</button>
+
+    <!-- Chat Widget -->
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">JeevanSetu Chatbot</div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        /************* Sample data (replace with real backend calls later) *************/
+        const sampleModules = [
+            { id: 1, title: 'Earthquake Safety', status: 'in-progress', progress: 90, points: 50 },
+            { id: 2, title: 'Flood Response', status: 'not-started', progress: 60, points: 40 },
+            { id: 3, title: 'Fire Safety', status: 'completed', progress: 85, points: 60 },
+            { id: 4, title: 'Heat Wave Protocol', status: 'not-started', progress: 60, points: 30 }
+        ];
+
+        const sampleContacts = [
+            { role: 'School Emergency Contact', name: 'Principal - Govt High School', phone: '0172-123456' },
+            { role: 'District Control Room', name: 'Punjab DRM', phone: '1800-111-222' },
+            { role: 'Ambulance', name: 'Local Ambulance Service', phone: '102' },
+            { role: 'Fire Brigade', name: 'Fire & Emergency', phone: '101' }
+        ];
+
+        const sampleAlerts = [
+            { id: 1, type: 'warning', title: 'Heavy Rain Expected', desc: 'Localized heavy rain expected for next 12 hours.', time: '2025-09-11 10:00' },
+            { id: 2, type: 'danger', title: 'Flash Flood Warning', desc: 'Flash floods reported in low-lying areas. Evacuate if necessary.', time: '2025-09-10 18:30' },
+            { id: 3, type: 'info', title: 'Scheduled Drill', desc: 'Planned drill tomorrow at 10 AM for all schools.', time: '2025-09-12 09:00' },
+            { id: 4, type: 'success', title: 'Drill Completed', desc: 'School XYZ completed the evacuation drill successfully.', time: '2025-08-30 11:00' }
+        ];
+
+        const leaderboardSample = [
+            { name: 'Team A', score: 950 },
+            { name: 'Team B', score: 880 },
+            { name: 'Team C', score: 830 },
+            { name: 'You', score: 450 }
+        ];
+
+        const quizQuestions = [
+            { q: 'During an earthquake, the recommended immediate action is?', options: ['Run outside immediately', 'Drop, Cover, and Hold On', 'Stand under a doorway', 'Climb to the roof'], ans: 1 },
+            { q: 'If you see a fire in a lab, you should first?', options: ['Try to put it out without help', 'Pull the fire alarm and evacuate', 'Record a video', 'Open all windows'], ans: 1 },
+            { q: 'What number should you call for an ambulance in India?', options: ['100', '102', '101', '108'], ans: 1 }
+        ];
+
+        /****************** Utility & UI Rendering ******************/
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileBtn = document.getElementById('mobileBtn');
+        const navLinksContainer = document.getElementById('navLinks');
+
+        function showSection(id) {
+            sections.forEach(s => s.id === id ? s.classList.add('active') : s.classList.remove('active'));
+            navLinks.forEach(a => a.dataset.section === id ? a.classList.add('active') : a.classList.remove('active'));
+            if (id === 'dashboard') renderDashboard();
+            if (id === 'modules') renderModules();
+            if (id === 'contacts') renderContacts();
+            if (id === 'alerts') renderAlerts();
+            if (id === 'drills') renderDrillsUI();
+            if (id === 'quiz') renderQuiz();
+            // close mobile nav on selection
+            if (window.innerWidth <= 768) navLinksContainer.style.display = 'none';
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', e => { e.preventDefault(); showSection(link.dataset.section) });
+        });
+
+        // Mobile toggle
+        mobileBtn.addEventListener('click', () => {
+            navLinksContainer.style.display = navLinksContainer.style.display === 'flex' ? 'none' : 'flex';
+            navLinksContainer.style.flexDirection = 'column';
+            navLinksContainer.style.background = 'rgba(255,255,255,0.98)';
+            navLinksContainer.style.padding = '1rem';
+        });
+
+        // Hero buttons
+        document.getElementById('enterDash').addEventListener('click', () => showSection('dashboard'));
+        document.getElementById('quickDrillBtn').addEventListener('click', () => { startQuickDrill(); showSection('drills'); });
+
+        /**************** Dashboard rendering ****************/
+        function renderDashboard() {
+            // compute simple metrics from modules and drills
+            const modulesCompleted = sampleModules.filter(m => m.status === 'completed').length;
+            const drillsCompleted = 8; // placeholder or load from backend
+            const points = sampleModules.reduce((s, m) => s + m.points, 0) + drillsCompleted * 10;
+            const preparedness = Math.min(100, Math.round((modulesCompleted * 25) + (drillsCompleted * 2)));
+
+            document.getElementById('preparedness-score').innerText = preparedness;
+            document.getElementById('modules-completed').innerText = modulesCompleted;
+            document.getElementById('drills-completed').innerText = drillsCompleted;
+            document.getElementById('points-earned').innerText = points;
+
+            // progress fills
+            document.getElementById('earthquake-fill').style.width = sampleModules[0].progress + '%';
+            document.getElementById('earthquake-percent').innerText = sampleModules[0].progress + '%';
+            document.getElementById('flood-fill').style.width = sampleModules[1].progress + '%';
+            document.getElementById('flood-percent').innerText = sampleModules[1].progress + '%';
+            document.getElementById('fire-fill').style.width = sampleModules[2].progress + '%';
+            document.getElementById('fire-percent').innerText = sampleModules[2].progress + '%';
+            document.getElementById('heat-fill').style.width = sampleModules[3].progress + '%';
+            document.getElementById('heat-percent').innerText = sampleModules[3].progress + '%';
+
+            // leaderboard
+            const lb = document.getElementById('leaderboard-list'); lb.innerHTML = '';
+            leaderboardSample.sort((a, b) => b.score - a.score).forEach((p, i) => {
+                const div = document.createElement('div'); div.className = 'leaderboard-item';
+                const rank = document.createElement('div'); rank.className = 'rank ' + (i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : 'default');
+                rank.innerText = i + 1; div.appendChild(rank);
+                const info = document.createElement('div'); info.innerHTML = `<strong>${p.name}</strong><div style="opacity:0.7">${p.score} pts</div>`;
+                div.appendChild(info); lb.appendChild(div);
+            });
+
+            // show recent alerts on dashboard top
+            const alertsContainer = document.getElementById('alertsContainer'); alertsContainer.innerHTML = '';
+            sampleAlerts.slice(0, 2).forEach(a => {
+                const d = document.createElement('div'); d.className = 'alert ' + a.type;
+                d.innerHTML = `<i class="fas fa-exclamation-triangle"></i><div><strong>${a.title}</strong><br/><small>${a.time}</small><div style="opacity:0.9">${a.desc}</div></div>`;
+                alertsContainer.appendChild(d);
+            });
+        }
+
+        /**************** Modules rendering & interactions ****************/
+        function renderModules() {
+            const el = document.getElementById('modulesGrid'); el.innerHTML = '';
+            sampleModules.forEach(m => {
+                const card = document.createElement('div'); card.className = 'module-card ' + (m.status === 'completed' ? 'completed' : m.status === 'in-progress' ? 'in-progress' : '');
+                card.innerHTML = `<h3>${m.title}</h3><div class="module-status ${m.status.replace(' ', '-')}">${m.status.replace('-', ' ')}</div><div style="margin-top:10px">Progress: ${m.progress}% • ${m.points} pts</div>`;
+                card.addEventListener('click', () => openModule(m));
+                el.appendChild(card);
+            });
+        }
+
+        function openModule(m) {
+            const body = document.getElementById('modalBody');
+            body.innerHTML = `<h3>${m.title}</h3><p>Interactive content placeholder for ${m.title}. Complete the short exercises to earn ${m.points} points.</p><div style="margin-top:1rem"><button class="btn btn-primary" id="completeModule">Mark as Completed</button> <button class="btn btn-secondary" id="startModule">Start Module</button></div>`;
+            document.getElementById('modal').classList.add('active');
+
+            document.getElementById('completeModule').addEventListener('click', () => {
+                m.status = 'completed'; m.progress = 100; showToast('Module completed! +' + m.points + ' pts'); renderModules(); renderDashboard(); closeModal();
+            });
+            document.getElementById('startModule').addEventListener('click', () => {
+                m.status = 'in-progress'; showToast('Module started'); renderModules(); renderDashboard();
+            });
+        }
+
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        function closeModal() { document.getElementById('modal').classList.remove('active'); document.getElementById('modalBody').innerHTML = ''; }
+
+        /**************** Contacts rendering ****************/
+        function renderContacts() {
+            const el = document.getElementById('contactsGrid'); el.innerHTML = '';
+            sampleContacts.forEach(c => {
+                const card = document.createElement('div'); card.className = 'contact-card';
+                card.innerHTML = `<i class="fas fa-phone-alt"></i><h3>${c.role}</h3><div style="opacity:0.8">${c.name}</div><div class="contact-number">${c.phone}</div><div style="margin-top:10px"><button class="btn btn-primary" onclick="navigator.clipboard && navigator.clipboard.writeText('${c.phone}') && alert('Number copied: ${c.phone}')">Copy</button></div>`;
+                el.appendChild(card);
+            });
+        }
+
+        /**************** Alerts rendering & filters ****************/
+        function renderAlerts(filter = 'all') {
+            const el = document.getElementById('alertsList'); el.innerHTML = '';
+            const list = sampleAlerts.filter(a => filter === 'all' ? true : a.type === filter);
+            if (list.length === 0) el.innerHTML = '<p>No alerts for selected filter.</p>';
+            list.forEach(a => {
+                const d = document.createElement('div'); d.className = 'alert ' + a.type;
+                d.innerHTML = `<i class="fas fa-exclamation-triangle"></i><div><strong>${a.title}</strong><br/><small>${a.time}</small><div style="opacity:0.9;margin-top:6px">${a.desc}</div><div style='margin-top:8px'><button class="btn btn-secondary" onclick='showAlertDetails(${a.id})'>Details</button></div></div>`;
+                el.appendChild(d);
+            });
+        }
+
+        function showAlertDetails(id) {
+            const a = sampleAlerts.find(x => x.id === id); if (!a) return;
+            const b = document.getElementById('modalBody'); b.innerHTML = `<h3>${a.title}</h3><small>${a.time}</small><p style="margin-top:1rem">${a.desc}</p>`; document.getElementById('modal').classList.add('active');
+        }
+
+        // filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderAlerts(btn.dataset.filter);
+            });
+        });
+
+        /**************** Drills simulator ****************/
+        let currentScenario = null;
+        let drillInterval = null;
+
+        function renderDrillsUI() {
+            document.getElementById('drillStatus').innerText = 'Select a scenario to begin';
+            document.getElementById('drill-title').innerText = currentScenario ? currentScenario.charAt(0).toUpperCase() + currentScenario.slice(1) + ' Drill' : 'No active drill';
+        }
+
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentScenario = btn.dataset.scenario; document.getElementById('drill-title').innerText = currentScenario + ' drill ready';
+                document.getElementById('drillStatus').innerText = `Scenario selected: ${currentScenario}. Click Start to begin the simulation.`;
+            });
+        });
+
+        document.getElementById('startDrill').addEventListener('click', () => {
+            if (!currentScenario) { showToast('Select a scenario first'); return; }
+            document.getElementById('startDrill').disabled = true; document.getElementById('stopDrill').disabled = false;
+            let step = 0; const steps = [
+                'Assessing situation...', 'Alerting participants...', 'Simulating evacuation...', 'Completing drill and recording results...'
+            ];
+            document.getElementById('drillStatus').innerText = steps[0];
+            drillInterval = setInterval(() => {
+                step++; if (step < steps.length) document.getElementById('drillStatus').innerText = steps[step];
+                else { clearInterval(drillInterval); document.getElementById('drillStatus').innerText = 'Drill finished — well done!'; document.getElementById('startDrill').disabled = false; document.getElementById('stopDrill').disabled = true; showToast('Drill completed. Points awarded.'); renderDashboard(); }
+            }, 1500);
+        });
+
+        document.getElementById('stopDrill').addEventListener('click', () => {
+            clearInterval(drillInterval); document.getElementById('drillStatus').innerText = 'Drill aborted.'; document.getElementById('startDrill').disabled = false; document.getElementById('stopDrill').disabled = true; showToast('Drill stopped');
+        });
+
+        document.getElementById('viewChecklist').addEventListener('click', () => {
+            document.getElementById('modalBody').innerHTML = `<h3>Checklist</h3><ul><li>Ensure safe exit routes</li><li>Assemble at muster points</li><li>Designate roll-calls</li><li>Administer first aid if needed</li></ul>`; document.getElementById('modal').classList.add('active');
+        });
+
+        function startQuickDrill() { currentScenario = 'earthquake'; showSection('drills'); document.getElementById('drill-title').innerText = 'Earthquake Drill Ready'; document.getElementById('drillStatus').innerText = 'Quick drill selected: Earthquake'; }
+
+        /**************** Quiz logic ****************/
+        let qIndex = 0; const userAnswers = new Array(quizQuestions.length).fill(null);
+        function renderQuiz() {
+            document.getElementById('quizResult').innerHTML = ''; qIndex = 0;
+            showQuestion(); updateQuizButtons();
+        }
+
+        function showQuestion() {
+            const q = quizQuestions[qIndex]; document.getElementById('qCounter').innerText = `Question ${qIndex + 1} of ${quizQuestions.length}`;
+            const box = document.getElementById('questionBox'); box.innerHTML = `<h3>${q.q}</h3>`;
+            const opts = document.createElement('div'); opts.className = 'options';
+            q.options.forEach((o, i) => {
+                const opt = document.createElement('div'); opt.className = 'option'; opt.innerText = o; opt.addEventListener('click', () => { selectOption(i); });
+                if (userAnswers[qIndex] === i) opt.classList.add('selected');
+                opts.appendChild(opt);
+            });
+            box.appendChild(opts);
+        }
+
+        function selectOption(i) { userAnswers[qIndex] = i; showQuestion(); }
+
+        document.getElementById('nextQ').addEventListener('click', () => { if (qIndex < quizQuestions.length - 1) qIndex++; showQuestion(); updateQuizButtons(); });
+        document.getElementById('prevQ').addEventListener('click', () => { if (qIndex > 0) qIndex--; showQuestion(); updateQuizButtons(); });
+
+        function updateQuizButtons() { document.getElementById('prevQ').disabled = qIndex === 0; document.getElementById('nextQ').disabled = qIndex === quizQuestions.length - 1; }
+
+        document.getElementById('submitQuiz').addEventListener('click', () => {
+            const unanswered = userAnswers.filter(a => a === null).length;
+            if (unanswered > 0 && !confirm(`You have ${unanswered} unanswered questions. Submit anyway?`)) return;
+            let score = 0; quizQuestions.forEach((q, i) => { if (userAnswers[i] === q.ans) score += 10; });
+            const percent = Math.round((score / (quizQuestions.length * 10)) * 100);
+            document.getElementById('quizResult').innerHTML = `<div class="score-display">Score: ${score} pts (${percent}%)</div>`;
+            // mark options correct/incorrect
+            const qbox = document.getElementById('questionBox'); qbox.innerHTML = '';
+            quizQuestions.forEach((q, i) => {
+                const el = document.createElement('div'); el.className = 'question';
+                el.innerHTML = `<h3>${q.q}</h3>`;
+                const opts = document.createElement('div'); opts.className = 'options';
+                q.options.forEach((o, idx) => {
+                    const opt = document.createElement('div'); opt.className = 'option ' + (idx === q.ans ? 'correct' : (userAnswers[i] === idx && idx !== q.ans ? 'incorrect' : ''));
+                    opt.innerText = o; opts.appendChild(opt);
+                });
+                el.appendChild(opts); document.getElementById('quizResult').appendChild(el);
+            });
+            showToast('Quiz submitted');
+        });
+
+        /**************** Toast helper ****************/
+        function showToast(msg = 'Action completed') {
+            const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        /*************** Initial render ***************/
+        // show default data
+        renderModules(); renderContacts(); renderAlerts(); renderDashboard();
+
+        // expose a few helpers to inline onclicks
+        window.showSection = showSection; window.startQuickDrill = startQuickDrill; window.showAlertDetails = showAlertDetails;
+
+
+        const apiKey = "50050ae77cfe47adaf1165501250909";
+        let step = 0;
+        let userCity = "";
+        let disasterType = "";
+
+        const chatContainer = document.getElementById("chatContainer");
+        const chatMessages = document.getElementById("chatMessages");
+        const userInput = document.getElementById("userInput");
+
+        function toggleChat() {
+            if (chatContainer.style.display === "flex") {
+                chatContainer.style.display = "none";
+            } else {
+                chatContainer.style.display = "flex";
+                if (step === 0 && chatMessages.innerHTML === "") {
+                    addMessage("bot", "Hello! I am JeevanSetu. 🌐 Where in India are you currently located?");
+                }
+            }
+        }
+
+        // Close chatbot when clicking outside
+        document.addEventListener("click", (event) => {
+            const isClickInside = chatContainer.contains(event.target) || event.target.classList.contains("chatbot-btn");
+            if (!isClickInside) {
+                chatContainer.style.display = "none";
+            }
+        });
+
+        function addMessage(sender, text) {
+            const msg = document.createElement("div");
+            msg.classList.add("message", sender);
+            msg.innerText = text;
+            chatMessages.appendChild(msg);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            addMessage("user", text);
+            userInput.value = "";
+
+            if (step === 0) {
+                userCity = text;
+                addMessage("bot", `Fetching weather details for ${userCity}...`);
+                fetchWeather(userCity);
+            } else if (step === 1) {
+                disasterType = text.toLowerCase();
+                provideDisasterGuidelines(disasterType);
+            }
+        }
+
+        async function fetchWeather(city) {
+            try {
+                const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.error) {
+                    addMessage("bot", "I couldn't find that city. Please enter another city in India.");
+                    return;
+                }
+
+                const condition = data.current.condition.text;
+                const temp = data.current.temp_c;
+                addMessage("bot", `🌦 The weather in ${city} is currently ${condition}, ${temp}°C.`);
+                addMessage("bot", "Now, what type of natural disaster are you facing? (Flood, Earthquake, Cyclone, Heatwave, Landslide, etc.)");
+                step = 1;
+            } catch (err) {
+                addMessage("bot", "⚠️ Failed to fetch weather. Please try again later.");
+            }
+        }
+
+        function provideDisasterGuidelines(type) {
+            let advice = "";
+            switch (type) {
+                case "flood":
+                    advice = "🌊 Flood Safety Measures:\n\n✅ Do’s:\n- Move immediately to higher ground.\n- Turn off electricity & gas.\n- Carry essential items in waterproof bags.\n- Listen to radio/TV for official alerts.\n\n❌ Don’ts:\n- Don’t walk or drive through floodwaters.\n- Don’t touch electrical equipment if wet.\n\n🏠 Shelters: Move to designated relief camps.\n🚑 Medical: Report injuries immediately.";
+                    break;
+                case "earthquake":
+                    advice = "🌍 Earthquake Safety Measures:\n\n✅ Do’s:\n- Drop, Cover, and Hold under sturdy furniture.\n- Stay indoors until shaking stops.\n- Keep emergency kits ready.\n\n❌ Don’ts:\n- Don’t run outside during tremors.\n- Don’t use elevators.\n\n🏠 Aftershock: Move to open ground away from buildings.\n🚑 Medical: Check yourself & others for injuries.";
+                    break;
+                case "cyclone":
+                    advice = "🌀 Cyclone Safety Measures:\n\n✅ Do’s:\n- Stay indoors in a small, windowless room.\n- Keep radio/mobile charged for alerts.\n- Secure doors & windows.\n- Store food, water, and first aid.\n\n❌ Don’ts:\n- Don’t go outside until officials declare it safe.\n- Don’t drive in storm surge areas.\n\n🏠 Shelters: Move to cyclone relief shelters.\n🚑 Medical: Inform authorities if injured.";
+                    break;
+                case "heatwave":
+                    advice = "☀️ Heatwave Safety Measures:\n\n✅ Do’s:\n- Drink water every 30 mins.\n- Stay indoors during peak heat hours.\n- Wear light cotton clothes & cover head.\n- Eat light meals (fruits, veggies).\n\n❌ Don’ts:\n- Don’t go out in direct sun unnecessarily.\n- Don’t drink alcohol/caffeine.\n\n🏠 Shelter: Rest in cool/shaded areas.\n🚑 Medical: Seek help if dizzy, faint, or weak.";
+                    break;
+                case "landslide":
+                    advice = "⛰ Landslide Safety Measures:\n\n✅ Do’s:\n- Move away from slopes & unstable ground.\n- Listen to local evacuation orders.\n- Be alert to unusual sounds (cracks, water flow changes).\n- Keep emergency supplies ready.\n\n❌ Don’ts:\n- Don’t return until declared safe.\n- Don’t build shelters near steep slopes.\n\n🏠 Shelters: Use relief camps on stable ground.\n🚑 Medical: Call for rescue if trapped/injured.";
+                    break;
+                default:
+                    advice = "⚠️ I don’t have detailed advice for this disaster type. Please follow official NDMA advisories.";
+            }
+
+            addMessage("bot", advice);
+            addMessage("bot", "🚨 Emergency Numbers:\n📞 Police/Fire/Ambulance: 112\n📞 NDMA Helpline: 1078 / 011-26701728\n📞 NDRF Distress: +91-9711077372");
+            step = 2;
+        }
+
+    </script>
+</body>
+
+</html>
